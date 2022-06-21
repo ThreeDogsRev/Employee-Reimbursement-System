@@ -1,8 +1,13 @@
-package dao;
+package com.revature.dao;
 import java.util.List;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 
-public interface Dao<T> {
+import com.revature.utils.SessionHelper;
+
+
+public interface IDao<T> {
   // Create
   
   /**
@@ -10,11 +15,9 @@ public interface Dao<T> {
    * @param entity, the item to insert into the database
    * @return the item that was inserted into the DB
    */
-   Integer insert(T entity);
-  
-  /*default Integer insert(T entity) {
+  default Integer insert(T entity) {
     try {
-      Session session = Hibernate.getSession();
+      Session session = SessionHelper.getSession();
       session.beginTransaction();
       Integer id = (Integer) session.save(entity);
       session.getTransaction().commit();
@@ -25,7 +28,6 @@ public interface Dao<T> {
     }
     return 0;
   }
-  */
 
   // Read
   

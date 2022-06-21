@@ -1,4 +1,4 @@
-package com.revature.modles;
+package com.revature.models.employee;
 
 import java.util.Objects;
 
@@ -13,51 +13,55 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.revature.enums.Roles;
-
 @Entity
-@Table(name="user_role")
-public class UserRoles {
-    
+@Table(name = "employee_rolls")
+public class EmployeeRoles {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_role_id")
     private int user_role_id;
+
     @Column(name = "user_role")
-    private Roles userRole;
-    public UserRoles(int user_role_id, Roles userRole) {
+    private EmployeeRoleEnum employeeType;
+
+    public EmployeeRoles(int user_role_id, EmployeeRoleEnum userRole) {
         super();
         this.user_role_id = user_role_id;
-        this.userRole = userRole;
+        this.employeeType = userRole;
     }
-    public UserRoles(Roles userRole) {
+
+    public EmployeeRoles(EmployeeRoleEnum userRole) {
         super();
-        this.userRole = userRole;
+        this.employeeType = userRole;
     }
-    public UserRoles() {
+
+    public EmployeeRoles() {
         super();
     }
-    
+
     public int getUser_role_id() {
         return user_role_id;
     }
-    
+
     public void setUser_role_id(int user_role_id) {
         this.user_role_id = user_role_id;
     }
-    
-    public Roles getUserRole() {
-        return userRole;
+
+    public EmployeeRoleEnum getUserRole() {
+        return employeeType;
     }
-    
-    public void setUserRole(Roles userRole) {
-        this.userRole = userRole;
+
+    public void setUserRole(EmployeeRoleEnum userRole) {
+        this.employeeType = userRole;
     }
+
     @Override
     public int hashCode() {
-        return Objects.hash(userRole, user_role_id);
+        return Objects.hash(employeeType, user_role_id);
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -66,14 +70,13 @@ public class UserRoles {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        UserRoles other = (UserRoles) obj;
-        return userRole == other.userRole && user_role_id == other.user_role_id;
+        EmployeeRoles other = (EmployeeRoles) obj;
+        return employeeType == other.employeeType && user_role_id == other.user_role_id;
     }
+
     @Override
     public String toString() {
-        return "UserRoles [user_role_id=" + user_role_id + ", userRole=" + userRole + "]";
+        return "UserRoles [user_role_id=" + user_role_id + ", userRole=" + employeeType + "]";
     }
-    
-    
-    
+
 }
