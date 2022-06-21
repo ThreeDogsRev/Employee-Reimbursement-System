@@ -1,5 +1,7 @@
 package com.revature.modles;
 
+import java.util.Objects;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,4 +26,54 @@ public class UserRoles {
     private int user_role_id;
     @Column(name = "user_role")
     private Roles userRole;
+    public UserRoles(int user_role_id, Roles userRole) {
+        super();
+        this.user_role_id = user_role_id;
+        this.userRole = userRole;
+    }
+    public UserRoles(Roles userRole) {
+        super();
+        this.userRole = userRole;
+    }
+    public UserRoles() {
+        super();
+    }
+    
+    public int getUser_role_id() {
+        return user_role_id;
+    }
+    
+    public void setUser_role_id(int user_role_id) {
+        this.user_role_id = user_role_id;
+    }
+    
+    public Roles getUserRole() {
+        return userRole;
+    }
+    
+    public void setUserRole(Roles userRole) {
+        this.userRole = userRole;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(userRole, user_role_id);
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        UserRoles other = (UserRoles) obj;
+        return userRole == other.userRole && user_role_id == other.user_role_id;
+    }
+    @Override
+    public String toString() {
+        return "UserRoles [user_role_id=" + user_role_id + ", userRole=" + userRole + "]";
+    }
+    
+    
+    
 }
