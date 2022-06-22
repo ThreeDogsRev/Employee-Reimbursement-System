@@ -48,7 +48,7 @@ public class EmployeeDao implements IDao<Employee>{
     EmployeeDao employeeDao = new EmployeeDao();
     Employee employee = new Employee("James", "May", "Top Gear", "Slow", "Email", EmployeeRole.EMPLOYEE);
     employeeDao.insert(employee);
-
+    
     employees = employeeDao.selectAll();
     System.out.println(employees);
 

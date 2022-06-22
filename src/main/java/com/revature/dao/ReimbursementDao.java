@@ -7,6 +7,8 @@ import org.hibernate.query.Query;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
+import com.revature.models.employee.Employee;
+import com.revature.models.employee.EmployeeRole;
 import com.revature.models.reimbursement.Reimbursement;
 import com.revature.utils.SessionHelper;
 
@@ -38,6 +40,21 @@ public class ReimbursementDao implements IDao<Reimbursement> {
       e.printStackTrace();
     }
     return null;
+  }
+
+  public static void main(String[] args) {
+    List<Reimbursement> reimbursements;
+    ReimbursementDao reimbursementDao = new ReimbursementDao();
+    EmployeeDao employeeDao = new EmployeeDao();
+    
+    Employee james_may = new Employee("James", "May", "Top Gear", "Slow", "Email", EmployeeRole.EMPLOYEE);
+    employeeDao.insert(james_may);
+  
+    Reimbursement reimbursement = new Reimbursement(1000L, "Beer Money", james_may );
+    reimbursementDao.insert(reimbursement);
+
+    reimbursements = reimbursementDao.selectAll();
+    System.out.println(reimbursements.get(0).getAuthor());
   }
 
 }

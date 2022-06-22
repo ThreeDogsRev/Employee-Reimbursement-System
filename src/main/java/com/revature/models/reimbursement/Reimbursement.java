@@ -13,11 +13,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.revature.models.PostgreSQLEnumType;
 import com.revature.models.employee.Employee;
 
@@ -34,7 +38,9 @@ public class Reimbursement {
   @Column(name = "rid")
   private int id;
 
-  @Column(nullable = false, name = "submit_date")
+  @CreationTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "submit_date", nullable = false)
   private Date submitDate;
 
   /*
@@ -54,41 +60,37 @@ public class Reimbursement {
   @JoinColumn(name = "author_id", referencedColumnName = "eid")
   private Employee author;
 
-  @Column(name = "resolve_date")
-  private Date resolveDate;
+  @UpdateTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "modify_date")
+  private Date lastModified;
 
-  @Column(name = "resolver_id")
-  private int resolverId;
+  @OneToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "resolver_id", referencedColumnName = "eid")
+  private Employee resolver;
 
   private Blob receipt;
 
-
-  public Reimbursement() {
-  }
+  public Reimbursement() {}
 
   public Reimbursement(int id, Date submitDate, Long amount, String description, ReimbursementStatus status,
-      Employee author, Date resolveDate, int resolverId, Blob receipt) {
+      Employee author, Date lastModified, Employee resolver, Blob receipt) {
     this.id = id;
     this.submitDate = submitDate;
     this.amount = amount;
     this.description = description;
     this.status = status;
-    this.author= author;
-    this.resolveDate = resolveDate;
-    this.resolverId = resolverId;
+    this.author = author;
+    this.lastModified = lastModified;
+    this.resolver = resolver;
     this.receipt = receipt;
   }
 
-  public Reimbursement(Date submitDate, Long amount, String description, ReimbursementStatus status, Employee author,
-      Date resolveDate, int resolverId, Blob receipt) {
-    this.submitDate = submitDate;
+  public Reimbursement(Long amount, String description, Employee author) {
     this.amount = amount;
     this.description = description;
-    this.status = status;
+    this.status = ReimbursementStatus.PENDING;
     this.author = author;
-    this.resolveDate = resolveDate;
-    this.resolverId = resolverId;
-    this.receipt = receipt;
   }
 
   @Override
@@ -105,16 +107,15 @@ public class Reimbursement {
       return false;
     }
     Reimbursement other = (Reimbursement) obj;
-    return Double.doubleToLongBits(this.amount) == Double.doubleToLongBits(other.amount)
-        && this.author == other.author && this.id == other.id
-        && Objects.equals(this.submitDate, other.submitDate);
+    return Double.doubleToLongBits(this.amount) == Double.doubleToLongBits(other.amount) && this.author == other.author
+        && this.id == other.id && Objects.equals(this.submitDate, other.submitDate);
   }
 
   @Override
   public String toString() {
     return "Reimbursement [id=" + this.id + ", submitDate=" + this.submitDate + ", amount=" + this.amount
         + ", description=" + this.description + ", status=" + this.status + ", authorId=" + this.author.getId()
-        + ", resolveDate=" + this.resolveDate + ", resolverId=" + this.resolverId + "]";
+        + ", resolveDate=" + this.lastModified + ", resolverId=" + this.lastModified + "]";
   }
 
   public void setDescription(String string) {
@@ -128,4 +129,9 @@ public class Reimbursement {
   public void setStatus(ReimbursementStatus status) {
     this.status = status;
   }
+
+  public Employee getAuthor() {
+    return this.author;
+  }
+
 }
