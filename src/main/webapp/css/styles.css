@@ -1,0 +1,40 @@
+body{
+    background-color: #bebcc4;
+
+}
+header{
+    border: solid black .05rem;
+    border-radius: 0 3rem 0 3rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+a, a:hover, a:focus, a:active {
+    text-decoration: none;
+    color: inherit;
+}
+header p {
+    font-size: 2rem;
+    text-decoration: none;
+}
+.container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin:2rem 0 2rem 0  ;
+}
+h1{
+    font-size: 1.5rem;
+}
+
+input{
+    margin: 1rem;
+}
+input[type=submit]{
+    color: wheat;
+    font-size: 1rem;
+    padding: .25rem .5rem;
+    background-color: black;
+    border: none;
+}
