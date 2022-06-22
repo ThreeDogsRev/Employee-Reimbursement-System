@@ -1,20 +1,13 @@
 package com.revature.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.hibernate.type.BlobType;
 
 import com.revature.models.employee.Employee;
 import com.revature.models.employee.EmployeeRole;
