@@ -60,7 +60,7 @@ public class RequestHelper {
 			PrintWriter out = response.getWriter();
 			response.setContentType("text/html");
 
-			out.println("<h1>Welcome " + e.getFirstName() + "!</h1>");
+			out.println("<h1>Welcome " + e.getUserName() + "!</h1>");
 			out.println("<h3>You have successfully logged in!</h3>");
 
 			// you COULD print the object out as a JSON string

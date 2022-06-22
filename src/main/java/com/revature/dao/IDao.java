@@ -9,7 +9,6 @@ import com.revature.utils.SessionHelper;
 
 public interface IDao<T> {
   // Create
-  
   /**
    * 
    * @param entity, the item to insert into the database
@@ -21,7 +20,6 @@ public interface IDao<T> {
       session.beginTransaction();
       Integer id = (Integer) session.save(entity);
       session.getTransaction().commit();
-      session.close();
       return id;
     } catch (HibernateException e) {
       e.printStackTrace();
@@ -48,12 +46,34 @@ public interface IDao<T> {
    * @param entity, the item to update in the DB
    * @return the item that was updated in the DB
    */
-  T update(T entity);
+  default T update(T entity){
+      try {
+        Session session = SessionHelper.getSession();
+        session.beginTransaction();
+        session.update(entity);
+        session.getTransaction().commit();
+        return entity;
+      } catch (HibernateException e) {
+        e.printStackTrace();
+      }
+      return null;
+    }
 
   // Delete
   /**
    * @param entity, the item to delete from the DB
    * @return the item that was deleted from the DB
    */
-  T delete(T entity);
-}
+  default T delete(T entity){
+      try {
+        Session session = SessionHelper.getSession();
+        session.beginTransaction();
+        session.delete(entity);
+        session.getTransaction().commit();
+        return entity;
+      } catch (HibernateException e) {
+        e.printStackTrace();
+      }
+      return null;
+    }
+  }

@@ -1,6 +1,7 @@
 package com.revature.models.reimbursement;
 
 import java.sql.Blob;
+import java.sql.Types;
 import java.util.Date;
 import java.util.Objects;
 
@@ -10,24 +11,27 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.TypeDef;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.revature.models.PostgreSQLEnumType;
 import com.revature.models.employee.Employee;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Entity(name = "Reimbursement")
 @Table(name = "reimbursements")
-@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 public class Reimbursement {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "rid")
   private int id;
 
   @Column(nullable = false, name = "submit_date")
@@ -46,9 +50,9 @@ public class Reimbursement {
   @Column(nullable = false)
   private ReimbursementStatus status;
 
-  @ManyToOne(targetEntity = Employee.class, fetch = FetchType.LAZY)
-  @Column(name = "author_id")
-  private int authorId;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "author_id", referencedColumnName = "eid")
+  private Employee author;
 
   @Column(name = "resolve_date")
   private Date resolveDate;
@@ -58,109 +62,38 @@ public class Reimbursement {
 
   private Blob receipt;
 
+
   public Reimbursement() {
   }
 
   public Reimbursement(int id, Date submitDate, Long amount, String description, ReimbursementStatus status,
-      int authorId, Date resolveDate, int resolverId, Blob receipt) {
+      Employee author, Date resolveDate, int resolverId, Blob receipt) {
     this.id = id;
     this.submitDate = submitDate;
     this.amount = amount;
     this.description = description;
     this.status = status;
-    this.authorId = authorId;
+    this.author= author;
     this.resolveDate = resolveDate;
     this.resolverId = resolverId;
     this.receipt = receipt;
   }
 
-  public Reimbursement(Date submitDate, Long amount, String description, ReimbursementStatus status, int authorId,
+  public Reimbursement(Date submitDate, Long amount, String description, ReimbursementStatus status, Employee author,
       Date resolveDate, int resolverId, Blob receipt) {
     this.submitDate = submitDate;
     this.amount = amount;
     this.description = description;
     this.status = status;
-    this.authorId = authorId;
+    this.author = author;
     this.resolveDate = resolveDate;
     this.resolverId = resolverId;
-    this.receipt = receipt;
-  }
-
-  public int getId() {
-    return this.id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public Date getSubmitDate() {
-    return this.submitDate;
-  }
-
-  public void setSubmitDate(Date submitDate) {
-    this.submitDate = submitDate;
-  }
-
-  public Long getAmount() {
-    return this.amount;
-  }
-
-  public void setAmount(Long amount) {
-    this.amount = amount;
-  }
-
-  public String getDescription() {
-    return this.description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public ReimbursementStatus getStatus() {
-    return this.status;
-  }
-
-  public void setStatus(ReimbursementStatus status) {
-    this.status = status;
-  }
-
-  public int getAuthorId() {
-    return this.authorId;
-  }
-
-  public void setAuthorId(int authorId) {
-    this.authorId = authorId;
-  }
-
-  public Date getResolveDate() {
-    return this.resolveDate;
-  }
-
-  public void setResolveDate(Date resolveDate) {
-    this.resolveDate = resolveDate;
-  }
-
-  public int getResolverId() {
-    return this.resolverId;
-  }
-
-  public void setResolverId(int resolverId) {
-    this.resolverId = resolverId;
-  }
-
-  public Blob getReceipt() {
-    return this.receipt;
-  }
-
-  public void setReceipt(Blob receipt) {
     this.receipt = receipt;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.amount, this.authorId, this.id, this.submitDate);
+    return Objects.hash(this.amount, this.author, this.id, this.submitDate);
   }
 
   @Override
@@ -173,14 +106,26 @@ public class Reimbursement {
     }
     Reimbursement other = (Reimbursement) obj;
     return Double.doubleToLongBits(this.amount) == Double.doubleToLongBits(other.amount)
-        && this.authorId == other.authorId && this.id == other.id
+        && this.author == other.author && this.id == other.id
         && Objects.equals(this.submitDate, other.submitDate);
   }
 
   @Override
   public String toString() {
     return "Reimbursement [id=" + this.id + ", submitDate=" + this.submitDate + ", amount=" + this.amount
-        + ", description=" + this.description + ", status=" + this.status + ", authorId=" + this.authorId
+        + ", description=" + this.description + ", status=" + this.status + ", authorId=" + this.author.getId()
         + ", resolveDate=" + this.resolveDate + ", resolverId=" + this.resolverId + "]";
+  }
+
+  public void setDescription(String string) {
+    this.description = string;
+  }
+
+  public void setAmount(long l) {
+    this.amount = l;
+  }
+
+  public void setStatus(ReimbursementStatus status) {
+    this.status = status;
   }
 }

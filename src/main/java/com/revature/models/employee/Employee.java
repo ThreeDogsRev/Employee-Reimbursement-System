@@ -1,19 +1,8 @@
 package com.revature.models.employee;
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -23,13 +12,14 @@ import com.revature.models.reimbursement.Reimbursement;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
+@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Entity(name = "Employee")
 @Table(name = "employee")
-@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "eid")
     private int id;
 
     @Size(min = 2, max = 50)
@@ -56,6 +46,10 @@ public class Employee {
     @Column(name = "employee_role", columnDefinition = "ers.employee_role")
     @Type(type = "pgsql_enum")
     private EmployeeRole employeeRole;
+
+    @OneToMany
+    @JoinColumn(name = "author_id", referencedColumnName = "eid")
+    private Set<Reimbursement> reimbursements;
 
     public Employee(int id, String fristName, String lastName, String userName, String password, String email,
             EmployeeRole employeeRole) {
@@ -103,74 +97,38 @@ public class Employee {
                 && Objects.equals(userName, other.userName) && employeeRole == other.employeeRole;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return fristName;
-    }
-
-    public void setFristName(String fristName) {
-        this.fristName = fristName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public EmployeeRole getEmployeeRole() {
-        return this.employeeRole;
-    }
-
-    public void setEmployeeRole(EmployeeRole employeeRole) {
-        this.employeeRole = employeeRole;
-    }
-
-    public List<Reimbursement> getReimbursements() {
-        return reimbursements;
-    }
-
-    public void setReimbursements(List<Reimbursement> reimbursements) {
-        this.reimbursements = reimbursements;
-    }
-
     @Override
     public String toString() {
         return "Users [id=" + id + ", fristName=" + fristName + ", lastName=" + lastName + ", userName=" + userName
                 + ", password=" + password + ", email=" + email + ", employeeRole=" + employeeRole + "]";
+    }
+
+    public Object getUserName() {
+        return this.userName;
+    }
+
+    public Object getPassword() {
+        return this.password;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setReimbursements(Set<Reimbursement> reimbursements) {
+        this.reimbursements = reimbursements;
+    }
+
+    public String getFirstName() {
+        return this.fristName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.fristName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;        
     }
 
 }
