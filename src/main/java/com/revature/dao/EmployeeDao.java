@@ -3,14 +3,9 @@ package com.revature.dao;
 import java.util.List;
 
 import com.revature.models.employee.Employee;
+import com.revature.models.employee.EmployeeRole;
 
 public class EmployeeDao implements IDao<Employee>{
-
-  @Override
-  public Integer insert(Employee entity) {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
   @Override
   public List<Employee> selectAll() {
@@ -36,4 +31,10 @@ public class EmployeeDao implements IDao<Employee>{
     return null;
   }
   
+  public static void main(String[] args) {
+    EmployeeDao employeeDao = new EmployeeDao();
+    Employee employee = new Employee("James", "May", "Top Gear", "Slow", "Email", EmployeeRole.EMPLOYEE);
+
+    System.out.println(employeeDao.insert(employee));
+  }
 }

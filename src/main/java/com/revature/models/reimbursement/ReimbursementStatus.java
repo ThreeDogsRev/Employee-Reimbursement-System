@@ -1,5 +1,5 @@
 package com.revature.models.reimbursement;
 
-public class ReimbursementStatus {
-  
+public enum ReimbursementStatus {
+  PENDING, APPROVED, DENIED
 }

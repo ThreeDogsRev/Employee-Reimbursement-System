@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,9 +13,17 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.TypeDef;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.revature.models.employee.Employee;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
+@Entity(name = "Reimbursement")
 @Table(name = "reimbursements")
+@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 public class Reimbursement {
 
   @Id
@@ -24,14 +33,18 @@ public class Reimbursement {
   @Column(nullable = false, name = "submit_date")
   private Date submitDate;
 
-  @Column(nullable = false)
-  private double amount;
+  /*
+   * Stores the amount of the reimbursement denominated in cents
+   */
+  @NotNull
+  @Min(value = 0)
+  private Long amount;
 
   @Column(nullable = false, length = 250)
   private String description;
 
   @Column(nullable = false)
-  private ReimbursementStatusEnum status;
+  private ReimbursementStatus status;
 
   @ManyToOne(targetEntity = Employee.class, fetch = FetchType.LAZY)
   @Column(name = "author_id")
@@ -48,7 +61,7 @@ public class Reimbursement {
   public Reimbursement() {
   }
 
-  public Reimbursement(int id, Date submitDate, double amount, String description, ReimbursementStatusEnum status,
+  public Reimbursement(int id, Date submitDate, Long amount, String description, ReimbursementStatus status,
       int authorId, Date resolveDate, int resolverId, Blob receipt) {
     this.id = id;
     this.submitDate = submitDate;
@@ -61,7 +74,7 @@ public class Reimbursement {
     this.receipt = receipt;
   }
 
-  public Reimbursement(Date submitDate, double amount, String description, ReimbursementStatusEnum status, int authorId,
+  public Reimbursement(Date submitDate, Long amount, String description, ReimbursementStatus status, int authorId,
       Date resolveDate, int resolverId, Blob receipt) {
     this.submitDate = submitDate;
     this.amount = amount;
@@ -89,11 +102,11 @@ public class Reimbursement {
     this.submitDate = submitDate;
   }
 
-  public double getAmount() {
+  public Long getAmount() {
     return this.amount;
   }
 
-  public void setAmount(double amount) {
+  public void setAmount(Long amount) {
     this.amount = amount;
   }
 
@@ -105,11 +118,11 @@ public class Reimbursement {
     this.description = description;
   }
 
-  public ReimbursementStatusEnum getStatus() {
+  public ReimbursementStatus getStatus() {
     return this.status;
   }
 
-  public void setStatus(ReimbursementStatusEnum status) {
+  public void setStatus(ReimbursementStatus status) {
     this.status = status;
   }
 
