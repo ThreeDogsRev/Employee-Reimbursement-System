@@ -251,3 +251,6 @@ buildNumber.properties
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/java,maven,eclipse,visualstudiocode,intellij
+
+### Sensitive config files ###
+hibernate.cfg.xml
