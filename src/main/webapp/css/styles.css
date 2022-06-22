@@ -9,6 +9,8 @@ header{
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin: 0 auto;
+    padding: 0;
 }
 a, a:hover, a:focus, a:active {
     text-decoration: none;
@@ -37,4 +39,17 @@ input[type=submit]{
     padding: .25rem .5rem;
     background-color: black;
     border: none;
+}
+main{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+    justify-content: center;
+
+}
+.area{
+    width: 48%;
+    
+    gap: 1rem;
 }
