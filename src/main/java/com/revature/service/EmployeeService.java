@@ -1,49 +1,30 @@
 package com.revature.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.revature.dao.EmployeeDao;
-import com.revature.models.*;
+import com.revature.models.Employee;
 
 public class EmployeeService {
 
-  private EmployeeDao employeeDao;
+    private EmployeeDao eDao;
 
-  /**
-   * Dependency Injection via Constructor Injection
-   * 
-   * Constructor Injection is a sophisticated way of ensuring
-   * that the EmployeeService object ALWAYS has an EmployeeDao object
-   * 
-   */
-  public EmployeeService(EmployeeDao edao) {
-    this.employeeDao = edao;
-  }
+    public EmployeeService(EmployeeDao eDao) {
+        this.eDao = eDao;
+    }
 
-  /**
-   * Our Servlet will pass the username and the password to this method invocation
-   * 
-   * @param username
-   * @param password
-   * @return
-   */
-  public Employee confirmLogin(String username, String password) {
+    public Employee login(String username, String password) {
+        /*
+         * TODO Implement selectByUsername in DAO layer
+         * - Returns an Employee instance
+         * - Login successful if Employee.id > 0, 0 (default int value) otherwise
+         */
+        return this.eDao.selectByUsername(username);
+    }
 
-    // let's stream through all the employees that are returned
-    Optional<Employee> possibleEmp = employeeDao.selectAll()
-        .stream()
-        .filter(e -> (e.getUserName().equals(username) && e.getPassword().equals(password)))
-        .findFirst();
+    public Employee getEmployeeInfo(int id) {
+        return this.eDao.selectById(id);
+    }
 
-    // IF the employee is present, return it, otherwise return empty Emp object
-    // (with id of 0)
-    return (possibleEmp.isPresent() ? possibleEmp.get() : new Employee());
-    // ideally you should optimize this and set up a custom exception to be returned
-  }
-
-  public List<Employee> getAll() {
-    return employeeDao.selectAll();
-  }
-
+    public Employee updateEmployeeInfo(Employee emp) {
+        return this.eDao.update(emp);
+    }
 }
