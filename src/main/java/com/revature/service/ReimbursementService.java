@@ -35,9 +35,14 @@ public class ReimbursementService {
           reimbursements.add(reimbursement);
         }
       }
-    }
-    return reimbursements;
+    } return reimbursements;
   }
   
-  
+  public static void main(String[] args) {
+    ReimbursementService rs = new ReimbursementService(new Dao());
+    List<Reimbursement> reimbursements = rs.getReimbursements();
+    for(Reimbursement reimbursement: reimbursements) {
+      System.out.println(reimbursement);
+    }
+  }
 }
