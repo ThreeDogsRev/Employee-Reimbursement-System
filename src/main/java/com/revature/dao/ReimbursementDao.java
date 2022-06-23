@@ -7,9 +7,10 @@ import org.hibernate.query.Query;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
-import com.revature.models.employee.Employee;
-import com.revature.models.employee.EmployeeRole;
-import com.revature.models.reimbursement.Reimbursement;
+import com.revature.models.Employee;
+import com.revature.models.EmployeeRole;
+import com.revature.models.Reimbursement;
+import com.revature.models.ReimbursementType;
 import com.revature.utils.SessionHelper;
 
 public class ReimbursementDao implements IDao<Reimbursement> {
@@ -47,14 +48,25 @@ public class ReimbursementDao implements IDao<Reimbursement> {
     ReimbursementDao reimbursementDao = new ReimbursementDao();
     EmployeeDao employeeDao = new EmployeeDao();
     
-    Employee james_may = new Employee("James", "May", "Top Gear", "Slow", "Email", EmployeeRole.EMPLOYEE);
+    Employee james_may = new Employee("James", "May", "jMay", "Slow", "Email", EmployeeRole.EMPLOYEE);
+    Employee richard_hammond = new Employee("Richard", "Hammond", "rHammond ", "Short", "Email2", EmployeeRole.EMPLOYEE);
+    Reimbursement beer = new Reimbursement(1000L, ReimbursementType.FOOD, "Beer Money" );
+    Reimbursement lodging = new Reimbursement(10000L, ReimbursementType.LODGING, "Hotel Money");
+    Reimbursement flight = new Reimbursement(12000L, ReimbursementType.TRAVEL, "Flight");
+    james_may.addReimbursement(beer);
+    richard_hammond.addReimbursement(lodging);
     employeeDao.insert(james_may);
-  
-    Reimbursement reimbursement = new Reimbursement(1000L, "Beer Money", james_may );
-    reimbursementDao.insert(reimbursement);
+    employeeDao.insert(richard_hammond);
+    Employee employee = employeeDao.selectAll().get(1);
+    System.out.println(employee);
+    System.out.println(employee.getReimbursments());
 
-    reimbursements = reimbursementDao.selectAll();
-    System.out.println(reimbursements.get(0).getAuthor());
+    employee.addReimbursement(flight);
+    employeeDao.update(employee);
+
+    employee = employeeDao.selectById(employee.getId());
+    System.out.println(employee);
+    System.out.println(employee.getReimbursments());
   }
 
 }

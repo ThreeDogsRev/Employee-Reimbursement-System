@@ -1,42 +1,41 @@
-package com.revature.models.reimbursement;
+package com.revature.models;
 
 import java.sql.Blob;
-import java.sql.Types;
 import java.util.Date;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.revature.models.PostgreSQLEnumType;
-import com.revature.models.employee.Employee;
+import org.hibernate.annotations.Type;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Entity(name = "Reimbursement")
-@Table(name = "reimbursements")
+@Table(name = "reimbursement")
 public class Reimbursement {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "rid")
+  @Column(name = "id")
   private int id;
+
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "status", columnDefinition = "ers.reimbursement_status")
+  @Type(type = "pgsql_enum")
+  private ReimbursementStatus status;
+
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "type", columnDefinition = "ers.reimbursement_type")
+  @Type(type = "pgsql_enum")
+  private ReimbursementType type;
+
 
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
@@ -50,47 +49,50 @@ public class Reimbursement {
   @Min(value = 0)
   private Long amount;
 
+
   @Column(nullable = false, length = 250)
   private String description;
 
-  @Column(nullable = false)
-  private ReimbursementStatus status;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "author_id", referencedColumnName = "eid")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "author_id", nullable = false, referencedColumnName="id")
   private Employee author;
+
 
   @UpdateTimestamp
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "modify_date")
   private Date lastModified;
 
+
   @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "resolver_id", referencedColumnName = "eid")
+  @JoinColumn(name = "resolver_id")
   private Employee resolver;
+
 
   private Blob receipt;
 
   public Reimbursement() {}
 
   public Reimbursement(int id, Date submitDate, Long amount, String description, ReimbursementStatus status,
-      Employee author, Date lastModified, Employee resolver, Blob receipt) {
+      ReimbursementType type, Employee author, Date lastModified, Employee resolver, Blob receipt) {
     this.id = id;
     this.submitDate = submitDate;
     this.amount = amount;
     this.description = description;
     this.status = status;
+    this.type = type;
     this.author = author;
     this.lastModified = lastModified;
     this.resolver = resolver;
     this.receipt = receipt;
   }
 
-  public Reimbursement(Long amount, String description, Employee author) {
+  public Reimbursement(Long amount, ReimbursementType type, String description) {
     this.amount = amount;
+    this.type = type;
     this.description = description;
     this.status = ReimbursementStatus.PENDING;
-    this.author = author;
   }
 
   @Override
@@ -132,6 +134,10 @@ public class Reimbursement {
 
   public Employee getAuthor() {
     return this.author;
+  }
+
+  public void setEmployee(Employee employee) {
+    this.author = employee;
   }
 
 }

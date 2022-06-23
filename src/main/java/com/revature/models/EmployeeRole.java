@@ -1,4 +1,4 @@
-package com.revature.models.employee;
+package com.revature.models;
 
 public enum EmployeeRole {
     EMPLOYEE, MANAGER, ADMIN

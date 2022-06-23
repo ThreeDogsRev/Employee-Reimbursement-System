@@ -9,8 +9,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import com.revature.models.employee.Employee;
-import com.revature.models.employee.EmployeeRole;
+import com.revature.models.Employee;
+import com.revature.models.EmployeeRole;
 import com.revature.utils.SessionHelper;
 
 public class EmployeeDao implements IDao<Employee>{

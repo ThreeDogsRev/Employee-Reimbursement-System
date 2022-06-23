@@ -14,7 +14,8 @@ import org.hibernate.type.EnumType;
  * compatable with PostgreSQL.
  */
 public class PostgreSQLEnumType extends org.hibernate.type.EnumType {
-     
+    
+    @Override
     public void nullSafeSet(
             PreparedStatement st, 
             Object value, 

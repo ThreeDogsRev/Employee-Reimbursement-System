@@ -1,13 +1,13 @@
-package com.revature.models.employee;
+package com.revature.models;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.List;
 
 import javax.persistence.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-
-import com.revature.models.PostgreSQLEnumType;
-import com.revature.models.reimbursement.Reimbursement;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
@@ -19,7 +19,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "eid")
+    @Column(name = "id")
     private int id;
 
     @Size(min = 2, max = 50)
@@ -47,9 +47,8 @@ public class Employee {
     @Type(type = "pgsql_enum")
     private EmployeeRole employeeRole;
 
-    @OneToMany
-    @JoinColumn(name = "author_id", referencedColumnName = "eid")
-    private Set<Reimbursement> reimbursements;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    private List<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
 
     public Employee(int id, String fristName, String lastName, String userName, String password, String email,
             EmployeeRole employeeRole) {
@@ -99,8 +98,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Users [id=" + id + ", fristName=" + fristName + ", lastName=" + lastName + ", userName=" + userName
-                + ", password=" + password + ", email=" + email + ", employeeRole=" + employeeRole + "]";
+        return "Employee:" + id + " " + email + " " + employeeRole + " " + fristName + " " + lastName + " " + password + " "+ userName;
     }
 
     public Object getUserName() {
@@ -115,7 +113,7 @@ public class Employee {
         return this.id;
     }
 
-    public void setReimbursements(Set<Reimbursement> reimbursements) {
+    public void setReimbursements(List<Reimbursement> reimbursements) {
         this.reimbursements = reimbursements;
     }
 
@@ -131,4 +129,17 @@ public class Employee {
         this.lastName = lastName;        
     }
 
+    public List<Reimbursement> getReimbursments() {
+        return this.reimbursements;
+    }
+
+    public void addReimbursement(Reimbursement reimbursement) {
+        this.reimbursements.add(reimbursement);
+        reimbursement.setEmployee(this);
+    }
+
+    public void removeReimbursement(Reimbursement reimbursement) {
+        this.reimbursements.remove(reimbursement);
+        reimbursement.setEmployee(null);
+    }
 }

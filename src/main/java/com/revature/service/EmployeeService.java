@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.revature.dao.EmployeeDao;
-import com.revature.models.employee.*;
+import com.revature.models.*;
 
 public class EmployeeService {
 

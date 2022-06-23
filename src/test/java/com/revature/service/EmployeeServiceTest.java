@@ -10,7 +10,7 @@ import java.util.*;
 import org.junit.*;
 
 import com.revature.dao.EmployeeDao;
-import com.revature.models.employee.Employee;
+import com.revature.models.Employee;
 
 public class EmployeeServiceTest {
   

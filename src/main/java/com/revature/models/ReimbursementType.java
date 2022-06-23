@@ -1,4 +1,4 @@
-package com.revature.models.reimbursement;
+package com.revature.models;
 
 public enum ReimbursementType {
   TRAVEL, LODGING, FOOD, OTHER
