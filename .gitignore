@@ -8,7 +8,6 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
-# https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 **/.project
 **/.classpath
@@ -17,3 +16,5 @@ buildNumber.properties
 **/logs/*
 .vscode
 .metadata/
+sts4_java_formatter.xml
+hibernate.cfg.xml
