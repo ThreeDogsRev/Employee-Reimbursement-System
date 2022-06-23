@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <a href="index.html">
+        <p>Three Dogs Empolyment Company</p>
+        </a>
+    </header>
+    <h1>Welcome {placeholder}</h1>
+    <button>Logout</button>
+    <main>
+
+        <div class = "area">
+            <h1>Reimbursement center</h1>
+            <form method="post" action = "gotoOpenRequests">
+                <input type="submit" value="Goto Open Requests">
+            </form>
+            <form method="post" action = "viewAllRequests">
+                <input type="submit" value="View all open and closed requests">
+            </form>
+            <form method="post" action = "viewPendingAll">
+                <input type="submit" value="View all pending reimbursement requests">
+            </form>
+            <form method="post" action = "viewResolved">
+                <input type="submit" value="View resolved requests">
+            </form>
+            <form method="post" action = "viewEmpolyeeReuqests">
+                <label>View all reimbursements requets from a specified employee</label>
+                <br>
+                <input type="text" name="employee" placeholder="emplyee username">
+                <input type="submit" value="View Requests">
+            </form>
+            
+        </div>
+    </main>
+</body>
+</html>
