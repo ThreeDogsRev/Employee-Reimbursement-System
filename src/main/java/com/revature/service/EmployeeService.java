@@ -3,47 +3,52 @@ package com.revature.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.revature.dao.EmployeeDao;
+import com.revature.dao.Dao;
+import com.revature.exceptions.PasswordInvalidException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.*;
 
 public class EmployeeService {
 
-  private EmployeeDao employeeDao;
+  private Dao dao;
 
-  /**
-   * Dependency Injection via Constructor Injection
-   * 
-   * Constructor Injection is a sophisticated way of ensuring
-   * that the EmployeeService object ALWAYS has an EmployeeDao object
-   * 
-   */
-  public EmployeeService(EmployeeDao edao) {
-    this.employeeDao = edao;
+  public EmployeeService(Dao ed) {
+    this.dao = ed;
   }
 
-  /**
-   * Our Servlet will pass the username and the password to this method invocation
-   * 
-   * @param username
-   * @param password
-   * @return
-   */
-  public Employee confirmLogin(String username, String password) {
-
-    // let's stream through all the employees that are returned
-    Optional<Employee> possibleEmp = employeeDao.selectAll()
-        .stream()
-        .filter(e -> (e.getUserName().equals(username) && e.getPassword().equals(password)))
-        .findFirst();
-
-    // IF the employee is present, return it, otherwise return empty Emp object
-    // (with id of 0)
-    return (possibleEmp.isPresent() ? possibleEmp.get() : new Employee());
-    // ideally you should optimize this and set up a custom exception to be returned
+  public List<Employee> getEmployees() {
+    return dao.selectAll();
   }
 
-  public List<Employee> getAll() {
-    return employeeDao.selectAll();
+  public Optional<Employee> getEmployee(int id) {
+    return Optional.ofNullable(dao.selectById(id));
   }
 
+  public Employee getEmployee(String username) throws UserNotFoundException {
+    Employee emp = dao.selectByUsername(username);
+    if (emp == null) {
+      throw new UserNotFoundException("Employee " + username + " not found");
+    }
+    return emp;
+  }
+
+  public Employee createEmployee(Employee employee) {
+    return dao.insert(employee);
+  }
+
+  public Employee updateEmployee(Employee employee) {
+    return dao.update(employee);
+  }
+
+  public Employee deleteEmployee(Employee employee){
+    return dao.delete(employee);
+  }
+
+  public Employee confirmLogin(String username, String password) 
+    throws UserNotFoundException, PasswordInvalidException{
+    if(password.equals(getEmployee(username).getPassword()))  {
+        return getEmployee(username);
+    }
+    throw new PasswordInvalidException("Password is invalid");
+  }
 }

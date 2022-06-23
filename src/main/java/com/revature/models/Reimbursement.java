@@ -54,8 +54,8 @@ public class Reimbursement {
   private String description;
 
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "author_id", nullable = false, referencedColumnName="id")
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "author_id")
   private Employee author;
 
 
@@ -66,7 +66,6 @@ public class Reimbursement {
 
 
   @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "resolver_id")
   private Employee resolver;
 
 
@@ -94,6 +93,87 @@ public class Reimbursement {
     this.description = description;
     this.status = ReimbursementStatus.PENDING;
   }
+  
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public ReimbursementStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(ReimbursementStatus status) {
+    this.status = status;
+  }
+
+  public ReimbursementType getType() {
+    return type;
+  }
+
+  public void setType(ReimbursementType type) {
+    this.type = type;
+  }
+
+  public Date getSubmitDate() {
+    return submitDate;
+  }
+
+  public void setSubmitDate(Date submitDate) {
+    this.submitDate = submitDate;
+  }
+
+  public Long getAmount() {
+    return amount;
+  }
+
+  public void setAmount(Long amount) {
+    this.amount = amount;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  @ManyToOne
+  public Employee getAuthor() {
+    return author;
+  }
+
+  public void setAuthor(Employee author) {
+    this.author = author;
+  }
+
+  public Date getLastModified() {
+    return lastModified;
+  }
+
+  public void setLastModified(Date lastModified) {
+    this.lastModified = lastModified;
+  }
+
+  public Employee getResolver() {
+    return resolver;
+  }
+
+  public void setResolver(Employee resolver) {
+    this.resolver = resolver;
+  }
+
+  public Blob getReceipt() {
+    return receipt;
+  }
+
+  public void setReceipt(Blob receipt) {
+    this.receipt = receipt;
+  }
 
   @Override
   public int hashCode() {
@@ -119,25 +199,4 @@ public class Reimbursement {
         + ", description=" + this.description + ", status=" + this.status + ", authorId=" + this.author.getId()
         + ", resolveDate=" + this.lastModified + ", resolverId=" + this.lastModified + "]";
   }
-
-  public void setDescription(String string) {
-    this.description = string;
-  }
-
-  public void setAmount(long l) {
-    this.amount = l;
-  }
-
-  public void setStatus(ReimbursementStatus status) {
-    this.status = status;
-  }
-
-  public Employee getAuthor() {
-    return this.author;
-  }
-
-  public void setEmployee(Employee employee) {
-    this.author = employee;
-  }
-
 }
