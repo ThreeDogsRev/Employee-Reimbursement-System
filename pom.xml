@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.reavture</groupId>
+	<groupId>com.revature</groupId>
 	<artifactId>employee-reimbursement-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
@@ -60,7 +60,7 @@
 			<artifactId>mockito-core</artifactId>
 			<version>4.1.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
@@ -91,6 +91,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
 
 </project>
