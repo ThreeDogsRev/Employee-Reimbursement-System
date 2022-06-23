@@ -42,16 +42,21 @@ public class RequestHelper {
 
 		// 2. call the confirm login(0 method from the employeeService and see what it
 		// returns
-		Employee e = eserv.confirmLogin(username, password);
+		Employee emp = null;
+		try {
+			emp = eserv.confirmLogin(username, password);
+		} catch (Exception e) {
+			//TODO: handle exception
+		}
 
 		// 3. If the user exists, lets print their info to the screen
-		if (e.getId() > 0) {
+		if (emp.getId() > 0) {
 
 			// grab the session
 			HttpSession session = request.getSession();
 
 			// add the user to the session
-			session.setAttribute("the-user", e);
+			session.setAttribute("the-user", emp);
 
 			// alternatively you can redirect to another resource instead of printing out
 			// dynamically
@@ -60,11 +65,11 @@ public class RequestHelper {
 			PrintWriter out = response.getWriter();
 			response.setContentType("text/html");
 
-			out.println("<h1>Welcome " + e.getUserName() + "!</h1>");
+			out.println("<h1>Welcome " + emp.getUsername() + "!</h1>");
 			out.println("<h3>You have successfully logged in!</h3>");
 
 			// you COULD print the object out as a JSON string
-			String jsonString = om.writeValueAsString(e);
+			String jsonString = om.writeValueAsString(emp);
 			out.println(jsonString);
 
 		} else {
