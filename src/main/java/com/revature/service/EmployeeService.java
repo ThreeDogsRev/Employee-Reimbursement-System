@@ -3,45 +3,45 @@ package com.revature.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.revature.dao.EmployeeDao;
+import com.revature.dao.Dao;
 import com.revature.exceptions.PasswordInvalidException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.*;
 
 public class EmployeeService {
 
-  private EmployeeDao ed;
+  private Dao dao;
 
-  public EmployeeService(EmployeeDao ed) {
-    this.ed = ed;
+  public EmployeeService(Dao ed) {
+    this.dao = ed;
   }
 
   public List<Employee> getEmployees() {
-    return ed.selectAll();
+    return dao.selectAll();
   }
 
   public Optional<Employee> getEmployee(int id) {
-    return Optional.ofNullable(ed.selectById(id));
+    return Optional.ofNullable(dao.selectById(id));
   }
 
   public Employee getEmployee(String username) throws UserNotFoundException {
-    Employee e = ed.selectByUsername(username);
-    if (e == null) {
+    Employee emp = dao.selectByUsername(username);
+    if (emp == null) {
       throw new UserNotFoundException("Employee " + username + " not found");
     }
-    return e;
+    return emp;
   }
 
   public Employee createEmployee(Employee employee) {
-    return ed.insert(employee);
+    return dao.insert(employee);
   }
 
   public Employee updateEmployee(Employee employee) {
-    return ed.update(employee);
+    return dao.update(employee);
   }
 
   public Employee deleteEmployee(Employee employee){
-    return ed.delete(employee);
+    return dao.delete(employee);
   }
 
   public Employee confirmLogin(String username, String password) 

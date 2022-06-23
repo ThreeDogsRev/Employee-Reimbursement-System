@@ -1,109 +1,102 @@
 package com.revature.dao;
+
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
+import com.revature.models.Employee;
+import com.revature.models.EmployeeRole;
+import com.revature.models.Reimbursement;
 import com.revature.utils.SessionHelper;
 
 
-public abstract class Dao<T> {
-
+public class Dao extends AbstractDao<Employee> {
 
   public Dao() {
     super();
   }
 
+  @Override
+  public List<Employee> selectAll() {
+    List<Employee> employees = new ArrayList<Employee>();
+    Session session = null;
+    try {
+      session = SessionHelper.getSession();
+      Query query = session.createQuery("FROM Employee");
+      employees = query.list();
+    } catch (HibernateException e) {
+      e.printStackTrace();
+    } finally {
+      try {if(session != null) session.close();} catch(Exception ex) {}
+    }
+    return employees;
+  }
 
-  // Create
+  @Override
+  public Employee selectById(int id) {
+    Employee employee = null;
+    Session session = null;
+    try {
+      session = SessionHelper.getSession();
+      session.beginTransaction();
+      employee = (Employee) session.get(Employee.class, id);
+    } catch (HibernateException e) {
+      e.printStackTrace();
+    } finally {
+      try {if(session != null) session.close();} catch(Exception ex) {}
+    }
+    return employee;
+  }
+
   /**
+   * Searches for an employee by their username.
    * 
-   * @param entity, the item to insert into the database
-   * @return the item that was inserted into the DB
+   * @param userName
+   * @return The Employee or null if no employee was found.
    */
-  public T insert(T entity) {
-    Session session = null;
+  public Employee selectByUsername(String userName) {
+    Employee employee = null;
     try {
-      session = SessionHelper.getSession();
+      Session session = SessionHelper.getSession();
       session.beginTransaction();
-      Integer id = (Integer) session.save(entity);
-      session.getTransaction().commit();
-      return (T) session.get(entity.getClass(), id);
+      Query query = session.createQuery("FROM Employee WHERE userName = :userName");
+      query.setParameter("userName", userName);
+      employee = (Employee) query.uniqueResult();
     } catch (HibernateException e) {
       e.printStackTrace();
-    } finally {
-      try {if(session != null) session.close();} catch(Exception ex) {}
     }
-    return null;
+    return employee;
   }
 
-  public void persist(T entitiy){
-    Session session = null;
-    try {
-      session = SessionHelper.getSession();
-      session.beginTransaction();
-      session.persist(entitiy);
-      session.getTransaction().commit();
-    } catch (HibernateException e) {
-      e.printStackTrace();
-    } finally {
-      try {if(session != null) session.close();} catch(Exception ex) {}
-    }
+  public static void main(String[] args) {
+    List<Employee> employees;
+    Dao ed = new Dao();
+    Employee employee = new Employee("James", "May", "Top Gear", "Slow", "Email", EmployeeRole.EMPLOYEE);
+    int id = ed.insert(employee).getId();
+
+    System.out.println();
+    System.out.println("Inserted employee with id: " + id);
+    System.out.println();
+    employees = ed.selectAll();
+    System.out.println(employees);
+
+    System.out.println("\n\n\n");
+    System.out.println("UPDATING");
+    employee = employees.get(0);
+    employee.setFirstName("John");
+
+    employees = ed.selectAll();
+    System.out.println(employees);
+
+    System.out.println("\n\n\n");
+    System.out.println("DELETING");
+    employee = employees.get(0);
+    ed.delete(employee);
+    employees = ed.selectAll();
+    System.out.println(employees);
   }
-
-  // Read
-  /**
-   * @return a list of all items in the DB
-   */
-  public abstract List<T> selectAll();
-
-  /**
-   * @param id, the id of the item to select
-   * @return the item with the id that was passed in
-   */
-  public abstract T selectById(int id) throws SQLException;
-
-  // Update
-
-  /**
-   * @param entity, the item to update in the DB
-   * @return the item that was updated in the DB
-   */
-  public T update(T entity){
-    Session session = null;
-      try {
-        session = SessionHelper.getSession();
-        session.beginTransaction();
-        session.update(entity);
-        session.getTransaction().commit();
-        return entity;
-      } catch (HibernateException e) {
-        e.printStackTrace();
-      } finally {
-        try {if(session != null) session.close();} catch(Exception ex) {}
-      }
-      return null;
-    }
-
-  // Delete
-  /**
-   * @param entity, the item to delete from the DB
-   * @return the item that was deleted from the DB
-   */
-  public T delete(T entity){
-    Session session = null;
-      try {
-        session = SessionHelper.getSession();
-        session.beginTransaction();
-        session.delete(entity);
-        session.getTransaction().commit();
-        return entity;
-      } catch (HibernateException e) {
-        e.printStackTrace();
-      } finally {
-        try {if(session != null) session.close();} catch(Exception ex) {}
-      }
-      return null;
-    }
-  }
+}

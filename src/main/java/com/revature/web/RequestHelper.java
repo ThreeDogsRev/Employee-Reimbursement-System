@@ -9,14 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.dao.EmployeeDao;
+import com.revature.dao.Dao;
 import com.revature.models.*;
 import com.revature.service.EmployeeService;
 
 public class RequestHelper {
 
 	// employeeservice
-	private static EmployeeService eserv = new EmployeeService(new EmployeeDao());
+	private static EmployeeService eserv = new EmployeeService(new Dao());
 	// object mapper (for frontend)
 	private static ObjectMapper om = new ObjectMapper();
 
