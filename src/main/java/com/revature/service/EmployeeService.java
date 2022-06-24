@@ -51,4 +51,8 @@ public class EmployeeService {
     }
     throw new PasswordInvalidException("Password is invalid");
   }
+
+  public int register(Employee e) {
+    return this.createEmployee(e).getId();
+  }
 }
