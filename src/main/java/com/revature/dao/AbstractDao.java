@@ -10,8 +10,7 @@ import com.revature.utils.SessionHelper;
 
 public abstract class AbstractDao<T> {
 
-
-  public AbstractDao() {
+  protected AbstractDao() {
     super();
   }
 
