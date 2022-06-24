@@ -1,4 +1,4 @@
-# Project-1: Employee Reimbursment System (ERS)
+# Project-1: Employee Reimbursement System (ERS)
 *Due Tuesday July 5th 2022*
 
 ## Executive Summary
