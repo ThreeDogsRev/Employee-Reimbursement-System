@@ -1,18 +1,20 @@
 package com.revature.service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 import com.revature.dao.Dao;
+import com.revature.dao.IDao;
 import com.revature.exceptions.PasswordInvalidException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.*;
 
 public class EmployeeService {
 
-  private Dao dao;
+  private IDao<Employee> dao;
 
-  public EmployeeService(Dao ed) {
+  public EmployeeService(IDao<Employee> ed) {
     this.dao = ed;
   }
 
@@ -20,7 +22,7 @@ public class EmployeeService {
     return dao.selectAll();
   }
 
-  public Optional<Employee> getEmployee(int id) {
+  public Optional<Employee> getEmployee(int id) throws SQLException {
     return Optional.ofNullable(dao.selectById(id));
   }
 

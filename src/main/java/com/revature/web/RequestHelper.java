@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dao.Dao;
+import com.revature.dao.FakeDao;
 import com.revature.exceptions.PasswordInvalidException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Employee;
@@ -18,12 +19,14 @@ import com.revature.models.EmployeeRole;
 import com.revature.service.EmployeeService;
 
 public class RequestHelper {
-	
+
+	private RequestHelper() {
+		super();
+	} 
 	// employeeservice
-	private static EmployeeService eserv = new EmployeeService(new Dao());
+	private static EmployeeService eserv = new EmployeeService(new FakeDao());
 	// object mapper (for frontend)
 	private static ObjectMapper om = new ObjectMapper();
-	
 	/*
 	 * This method will call the EmployeeService's  findAll method()
 	 * -- use an object mapper to transform that list to a JSON String
@@ -75,7 +78,6 @@ public class RequestHelper {
 			// add the user to the session
 			HttpSession session = request.getSession();
 			session.setAttribute("the-user", e);
-			
 			request.getRequestDispatcher("welcome.html").forward(request, response);
 			// using the request dispatcher, forward the request and response to a new resource...
 			// send the user to a new page -- welcome.html
@@ -84,9 +86,8 @@ public class RequestHelper {
 			// if it's -1, that means the register method failed (and there's probably a duplicate user)
 		// use the PrintWriter to print out 
 			
-			// TODO: provide better logic in the Service layer to check for PSQL exceptions
-			
-			
+		// TODO: provide better logic in the Service layer to check for PSQL exceptions
+
 			PrintWriter out = response.getWriter();
 			response.setContentType("text/html");
 			out.println("<h1>Registration failed.  Username already exists</h1>");

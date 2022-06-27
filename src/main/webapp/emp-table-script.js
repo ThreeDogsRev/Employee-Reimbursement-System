@@ -73,7 +73,7 @@ function fetchEmps() {
   let hostname = window.location.hostname; // this will grab the IP of where it's deployed
 
   // this is a template literal (introduced in ES6)
-  fetch(`http://${hostname}:8080/employee-servlet-app/employees`)
+  fetch(`http://${hostname}:8080/Employee-Reimbursment-System/employees`)
     .then((response) => response.json()) // trakes a json string and transforms
     // it to a javaScript object
     //.then(obj => console.log(obj)); // print the JS obj to the console
