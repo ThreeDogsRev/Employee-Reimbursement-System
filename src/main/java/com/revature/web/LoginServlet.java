@@ -6,8 +6,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.revature.dao.Dao;
 import com.revature.dao.FakeDao;
 import com.revature.exceptions.PasswordInvalidException;
 import com.revature.exceptions.UserNotFoundException;
