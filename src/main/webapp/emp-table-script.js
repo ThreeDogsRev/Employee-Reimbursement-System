@@ -1,4 +1,4 @@
-console.log("Hello Javascript world!!!");
+console.log("emp-table-script.js");
 
 // grab the table  element from the page so
 // we can modify how it looks and add elements

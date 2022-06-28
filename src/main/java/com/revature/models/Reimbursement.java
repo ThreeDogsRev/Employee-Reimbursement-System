@@ -10,6 +10,9 @@ import javax.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.hibernate.annotations.Type;
 
 import jakarta.validation.constraints.Min;
@@ -18,6 +21,7 @@ import jakarta.validation.constraints.NotNull;
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Entity(name = "Reimbursement")
 @Table(name = "reimbursement")
+@JsonIgnoreProperties(value = {"author"})
 public class Reimbursement implements Serializable{
 
   @Id

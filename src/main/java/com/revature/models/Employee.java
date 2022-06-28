@@ -19,12 +19,15 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Entity(name = "Employee")
 @Table(name = "employee")
+@JsonIgnoreProperties(value = {"password"})
 public class Employee implements Serializable{
 
     @Id
