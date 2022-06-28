@@ -12,7 +12,7 @@
   
   <servlet-mapping>
     <servlet-name>Dispatcher</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/home</url-pattern>
     <url-pattern>/employees</url-pattern>
     <url-pattern>/register</url-pattern>
     <url-pattern>/test</url-pattern>
