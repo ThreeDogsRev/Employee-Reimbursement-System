@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.util.Date;
 import java.util.Objects;
@@ -17,7 +18,7 @@ import jakarta.validation.constraints.NotNull;
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Entity(name = "Reimbursement")
 @Table(name = "reimbursement")
-public class Reimbursement {
+public class Reimbursement implements Serializable{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
