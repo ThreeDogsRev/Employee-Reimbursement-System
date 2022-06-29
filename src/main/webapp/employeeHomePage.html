@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body>
     <header>
@@ -18,22 +19,73 @@
     <main>
         
 
-        <div class = "area">
-            <h1>Reimbursement center</h1>
-            <form method="post" action = "subminReimbursement">
-                <input type="submit" value="Submint a new Reimbursement Request">
-            </form>
-            <form method="post" action = "subminReimbursementpics">
+        <div class = "container">
+            <h2>Reimbursement center</h2>
+            <div class="row">
+            <div class="card col-6">
+                <div class="card-header text text-center">
+                    <h3>Create a new request for reimbursement</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" action = "subminReimbursement">
+                        <label class="form-lable">Username</label>
+                        <input class="form-control"  type="text" name="username" placeholder="Enter a username"/>
+
+                        <label class="form-lable">Type of expense</label>
+                        <select class="form-select">
+                            <option selected>Select type form this menu</option>
+                            <option value="LODGING">Lodging</option>
+                            <option value="TRAVEL">travel</option>
+                            <option value="FOOD">food</option>
+                            <option value="OTHER">other</option>
+
+                        </select>
+                       
+
+                        <label class="form-lable">Request Amount</label>
+                        <input class="form-control"  type="text" name="amount" placeholder="amount spent"/>
+
+                        <label class="form-lable">Description of expense</label>
+                        <input class="form-control"  type="text" name="description" placeholder="description"/>
+                        
+                        <label for="formFile" class="form-label">Receipt upload</label>
+                        <input class="form-control" type="file" name="receipt">
+                          
+                          
+
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+            
+            <!-- <form method="post" action = "subminReimbursementpics">
                 <input type="submit" value="Submint a new receipt">
             </form>
-            <form method="post" action = "viewPendingRequests">
-                <input type="submit" value="View your pending reimbursement requests">
-            </form>
-            <form method="post" action = "viewResolvedRequests">
-                <input type="submit" value="View your resolved reimbursement register">
-            </form>
+            !-->
+            <div class="card col-3">
+                <div class="card-header text-center">
+                    <h3>View your pending requests</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" action = "viewPendingRequests">
+                    <input type="submit" value="View  requests">
+                </div>
+            </div>
+
+            <div class="card col-3">
+                <div class="card-header text-center">
+                    <h3>View Your resolved reimbursments</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" action = "viewResolvedRequests">
+                        <input type="submit" value="View resolved reimbursementr">
+                </div>
+            </div>
             
         </div>
+        </div>
+
+
         <div class = "area">
             <h1>Your info center</h1>
             <form method="post" action = "login">
@@ -47,5 +99,6 @@
         </div>
         
     </main>
+    
 </body>
 </html>
