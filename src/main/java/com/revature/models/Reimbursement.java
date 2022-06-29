@@ -10,6 +10,10 @@ import javax.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.hibernate.annotations.Type;
 
 import jakarta.validation.constraints.Min;
@@ -54,7 +58,7 @@ public class Reimbursement implements Serializable{
   @Column(nullable = false, length = 250)
   private String description;
 
-
+  @JsonBackReference 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "author_id")
   private Employee author;
@@ -86,6 +90,19 @@ public class Reimbursement implements Serializable{
     this.lastModified = lastModified;
     this.resolver = resolver;
     this.receipt = receipt;
+  }
+
+  public Reimbursement(Reimbursement r){
+    this.id = r.id;
+    this.submitDate = r.submitDate;
+    this.amount = r.amount;
+    this.description = r.description;
+    this.status = r.status;
+    this.type = r.type;
+    this.author = r.author;
+    this.lastModified = r.lastModified;
+    this.resolver = r.resolver;
+    this.receipt = r.receipt;
   }
 
   public Reimbursement(Long amount, ReimbursementType type, String description) {

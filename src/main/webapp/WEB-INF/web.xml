@@ -4,20 +4,4 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
-  
-  <servlet>
-    <servlet-name>Dispatcher</servlet-name>
-    <servlet-class>com.revature.web.Dispatcher</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>Dispatcher</servlet-name>
-    <url-pattern>/home</url-pattern>
-    <url-pattern>/employees</url-pattern>
-    <url-pattern>/register</url-pattern>
-    <url-pattern>/test</url-pattern>
-    <!-- http://localhost:8080/employee-servlet-app/login -->
-    <!-- http://localhost:8080/employee-servlet-app/employees -->
-    <!-- http://localhost:8080/employee-servlet-app/register -->
-  </servlet-mapping>
 </web-app>

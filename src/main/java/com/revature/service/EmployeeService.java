@@ -22,8 +22,8 @@ public class EmployeeService {
     return dao.selectAll();
   }
 
-  public Optional<Employee> getEmployee(int id) throws SQLException {
-    return Optional.ofNullable(dao.selectById(id));
+  public Employee getEmployee(int id) throws SQLException {
+    return dao.selectById(id);
   }
 
   public Employee getEmployee(String username) throws UserNotFoundException {

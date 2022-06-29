@@ -16,11 +16,15 @@ Java 8, Servlet API, Apache Tomcat, Hibernate, PostgreSQL, HTML, CSS, JavaScript
 * The front-end view shall use HTML/CSS/JavaScript to make an application that can call server-side components and be styled with CSS. 
 * The middle tier shall follow proper layered architecture, and have reasonable test coverage of the service layer.
 
-## Workflow Suggestions
-For software teams, the stand-up is like the team’s huddle. It’s even commonly known as the daily scrum, and reinforces “we” to keep everyone aware of the team’s landscape and progress.
-
-- Every day you should have a stand-up meeeting with your team. 
-- Elect a Leader within your team who will represent the main point of contact & assist in task mgmt.
+## API Endpoints
+### empoyees
+##### GET
+* /employees/?id=<id>
+* /employees/?name=<username>
+### reimbursements
+##### GET
+* /reimbursements/?status=<status>
+* /reimbursements/?type=<type>
 
 #### In your Team Standups Use the 3 question agenda:
 *Team Lead asks each attendee to answer these questions.*
