@@ -65,7 +65,7 @@ const renderTable = (data) => {
   });
 };
 
-function fetchEmps() {
+function fetchOpen() {
   let hostname = window.location.hostname;
 
   fetch(
