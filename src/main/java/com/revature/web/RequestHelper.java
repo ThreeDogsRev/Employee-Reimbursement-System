@@ -69,7 +69,7 @@ public class RequestHelper {
 		Employee e = new Employee(firstname, lastname, username, password, email, EmployeeRole.EMPLOYEE);
 		
 		// 3. call the register() method from the service layer
-		int pk = eserv.register(e);
+		int pk = 0;
 			
 		// 4. check it's ID...if it's > 0 it's successfull
 		if (pk > 0 ) {
