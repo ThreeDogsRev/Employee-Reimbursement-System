@@ -1,0 +1,14 @@
+body {
+    background-color: whitesmoke;
+    padding: 70px;
+  }
+
+  .card {
+    background-color: rgba(237, 237, 151, 0.944);
+    padding: 1%;
+  }
+
+  form,
+  label {
+    margin: 10px;
+  }
