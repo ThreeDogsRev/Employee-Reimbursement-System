@@ -38,8 +38,6 @@ public class SubmitReimbursementServlet extends HttpServlet {
         Reimbursement r = new Reimbursement(amount, rType, desc);
         r.setAuthor(e);
         e.addReimbursement(r);
-        System.out.println(es.updateEmployee(e));
-        System.out.println(e.getReimbursements());
         req.setAttribute("message", "Reimbursement request submitted");
         resp.sendRedirect("employeeHome");
     }
