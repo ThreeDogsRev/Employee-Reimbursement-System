@@ -13,7 +13,7 @@ const submitReimbursement = () => {
 
 //render tables
 
-const renderTable = (data) => {
+const renderTableRequests = (data) => {
   let header = document.createElement("thead");
   let headerRow = document.createElement("tr");
 
@@ -65,6 +65,41 @@ const renderTable = (data) => {
   });
 };
 
+const renderTableEmpData = (data) => {
+  let header = document.createElement("thead");
+  let headerRow = document.createElement("tr");
+
+  header.appendChild(headerRow);
+  table.appendChild(header);
+
+  let th1 = document.createElement("th");
+  th1.innerHTML = "Id";
+  let th2 = document.createElement("th");
+  th2.innerHTML = "Employee Name";
+  let th3 = document.createElement("th");
+  th3.innerHTML = "Email";
+  let th4 = document.createElement("th");
+  th4.innerHTML = "Role";
+  data.array.forEach((element) => {
+    let row = document.createElement("tr");
+    let td1 = document.createElement("td");
+    let td2 = document.createElement("td");
+    let td3 = document.createElement("td");
+    let td4 = document.createElement("td");
+
+    td1.innerHTML = element.id;
+    td2.innerHTML = element.firstName + " " + element.lastName;
+    td3.innerHTML = element.email;
+    td4.innerHTML = employeeRole;
+
+    row.appendChild(td1);
+    row.appendChild(td2);
+    row.appendChild(td3);
+    row.appendChild(td4);
+
+    table.appendChild(row);
+  });
+};
 function fetchOpen() {
   let hostname = window.location.hostname;
 
