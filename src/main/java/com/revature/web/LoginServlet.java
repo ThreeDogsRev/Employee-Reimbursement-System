@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
       request.setAttribute("message", e.getMessage());
     }
     RequestDispatcher dispatcher = (user == null)
-    ? request.getRequestDispatcher("login.html")
+    ? request.getRequestDispatcher("index.html")
     : request.getRequestDispatcher("employeeHomePage.html");
     try{
       dispatcher.forward(request, response);
