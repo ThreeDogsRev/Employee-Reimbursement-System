@@ -24,7 +24,7 @@ import com.revature.models.ReimbursementType;
 import com.revature.service.EmployeeService;
 import com.revature.service.ReimbursementService;
 
-@WebServlet("/reimbursement")
+@WebServlet("/reimbursements")
 public class ReimbursementServlet extends HttpServlet {
   private static EmployeeService es = new EmployeeService(new FakeDao());
   private static ReimbursementService rs = new ReimbursementService(new FakeDao());
