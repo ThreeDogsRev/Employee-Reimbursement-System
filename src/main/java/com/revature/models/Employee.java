@@ -20,6 +20,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
@@ -60,9 +61,21 @@ public class Employee implements Serializable{
     @Type(type = "pgsql_enum")
     private EmployeeRole employeeRole;
 
+    @JsonManagedReference 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "author")
     private List<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
 
+    public Employee(Employee employee) {
+        this.id = employee.id;
+        this.firstName = employee.firstName;
+        this.lastName = employee.lastName;
+        this.userName = employee.userName;
+        this.password = employee.password;
+        this.email = employee.email;
+        this.employeeRole = employee.employeeRole;
+        this.reimbursements = employee.reimbursements;
+    }
+    
     public Employee(int id, String fristName, String lastName, String userName, String password, String email,
             EmployeeRole employeeRole) {
         super();
