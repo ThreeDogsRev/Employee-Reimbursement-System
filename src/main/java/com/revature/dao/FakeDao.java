@@ -10,47 +10,51 @@ import com.revature.models.EmployeeRole;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementType;
 
-public class FakeDao extends HashMap<Integer, Employee> implements IDao<Employee> {
+public class FakeDao implements IDao<Employee> {
+  private static HashMap<Integer, Employee> employees = new HashMap<>();
 
   public FakeDao() {
     super();
-    Employee e1 = new Employee("Alice", "Able", "atest", "test", "test@test", EmployeeRole.EMPLOYEE);
-    Employee e2 = new Employee("Bob", "Bobby", "btest", "test", "test2@test", EmployeeRole.EMPLOYEE);
-    e1.addReimbursement(new Reimbursement(1000L, ReimbursementType.FOOD, "Wendies"));
-    e1.addReimbursement(new Reimbursement(200000L, ReimbursementType.LODGING, "Hotel California"));
-    e1.addReimbursement(new Reimbursement(100000L, ReimbursementType.TRAVEL, "American Airlines"));
-    this.insert(e1);
-    this.insert(e2);
+    if (employees.isEmpty()){
+      Employee e1 = new Employee("Alice", "Able", "atest", "test", "test@test", EmployeeRole.EMPLOYEE);
+      Employee e2 = new Employee("Bob", "Bobby", "btest", "test", "test2@test", EmployeeRole.EMPLOYEE);
+      e1.addReimbursement(new Reimbursement(1000L, ReimbursementType.FOOD, "Wendies"));
+      e1.addReimbursement(new Reimbursement(200000L, ReimbursementType.LODGING, "Hotel California"));
+      e1.addReimbursement(new Reimbursement(100000L, ReimbursementType.TRAVEL, "American Airlines"));
+      this.insert(e1);
+      this.insert(e2);
+    }
   }
 
   @Override
   public Employee insert(Employee entity) {
-    entity.setId(this.size());
-    super.put(this.size(), entity);
-    return entity;
+    int id = employees.size();
+    entity.setId(id);
+    employees.put(id, entity);
+    return employees.get(id);
   }
 
   @Override
   public List<Employee> selectAll() {
-    return new ArrayList<Employee>(this.values());
+    return new ArrayList<Employee>(employees.values());
   }
 
   @Override 
   public void persist (Employee entity) {
-    super.put(entity.getId(), entity);
+    employees.put(entity.getId(), entity);
   }
 
   @Override
   public Employee selectById(int id) throws SQLException {
-    if(super.containsKey(id)) {
-      return super.get(id);
+    if(employees.containsKey(id)) {
+      return employees.get(id);
     }
     throw new SQLException("employee not found");
   }
 
   @Override
   public Employee selectByUsername(String userName) {
-    for (Employee employee : this.values()) {
+    for (Employee employee : employees.values()) {
       if (employee.getUsername().equals(userName)) {
         return employee;
       }
