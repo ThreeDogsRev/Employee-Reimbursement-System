@@ -62,6 +62,19 @@ public class FakeDao implements IDao<Employee> {
     return null;
   }
 
+  @Override
+  public Employee update(Employee entity) {
+    int id = entity.getId();
+    employees.put(id, entity);
+    return employees.get(id);
+  }
+
+  @Override
+  public Employee delete(Employee entity) {
+    int id = entity.getId();
+    return employees.remove(id);
+  }
+
 
 }
 
