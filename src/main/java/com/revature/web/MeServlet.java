@@ -15,7 +15,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.revature.dao.Dao;
-import com.revature.dao.FakeDao;
 import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 import com.revature.service.EmployeeService;
@@ -30,7 +29,7 @@ public class MeServlet extends HttpServlet {
     om = new ObjectMapper();
     om.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
     om.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
-    es = new EmployeeService(new FakeDao());
+    es = new EmployeeService(new Dao());
   }
 
   @Override

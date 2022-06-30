@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.revature.dao.FakeDao;
+import com.revature.dao.Dao;
 import com.revature.models.Employee;
 import com.revature.models.EmployeeRole;
 import com.revature.service.EmployeeService;
@@ -19,7 +19,7 @@ import com.revature.utils.FormInputValidator;
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static EmployeeService es = new EmployeeService(new FakeDao());
+	private static EmployeeService es = new EmployeeService(new Dao());
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

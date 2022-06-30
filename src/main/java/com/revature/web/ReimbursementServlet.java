@@ -16,7 +16,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.revature.dao.Dao;
-import com.revature.dao.FakeDao;
 import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementStatus;
@@ -26,8 +25,8 @@ import com.revature.service.ReimbursementService;
 
 @WebServlet("/reimbursements")
 public class ReimbursementServlet extends HttpServlet {
-  private static EmployeeService es = new EmployeeService(new FakeDao());
-  private static ReimbursementService rs = new ReimbursementService(new FakeDao());
+  private static EmployeeService es = new EmployeeService(new Dao());
+  private static ReimbursementService rs = new ReimbursementService(new Dao());
   private static ObjectMapper om = new ObjectMapper();
 
   public ReimbursementServlet() {

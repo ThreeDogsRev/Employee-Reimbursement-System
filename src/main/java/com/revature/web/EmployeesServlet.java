@@ -15,7 +15,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.revature.dao.Dao;
-import com.revature.dao.FakeDao;
 import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 import com.revature.service.EmployeeService;
@@ -23,7 +22,7 @@ import com.revature.service.EmployeeService;
 @WebServlet("/employees")
 public class EmployeesServlet extends HttpServlet {
 
-  private static EmployeeService es = new EmployeeService(new FakeDao());
+  private static EmployeeService es = new EmployeeService(new Dao());
   private static ObjectMapper om = new ObjectMapper();
 
   public EmployeesServlet() {

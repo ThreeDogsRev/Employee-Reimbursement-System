@@ -6,7 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.revature.dao.FakeDao;
+import com.revature.dao.Dao;
 import com.revature.exceptions.PasswordInvalidException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Employee;
@@ -15,7 +15,7 @@ import com.revature.service.EmployeeService;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  EmployeeService employeeService = new EmployeeService(new FakeDao());
+  EmployeeService employeeService = new EmployeeService(new Dao());
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {

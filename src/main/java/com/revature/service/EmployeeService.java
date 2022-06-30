@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.revature.dao.Dao;
-import com.revature.dao.FakeDao;
 import com.revature.dao.IDao;
 import com.revature.exceptions.PasswordInvalidException;
 import com.revature.exceptions.UserNotFoundException;
@@ -47,7 +46,7 @@ public class EmployeeService {
     return dao.delete(employee);
   }
 
-  public Employee confirmLogin(String username, String password) 
+  public Employee confirmLogin(String username, String password)
     throws UserNotFoundException, PasswordInvalidException{
     if(password.equals(getEmployee(username).getPassword()))  {
         return getEmployee(username);
@@ -61,7 +60,7 @@ public class EmployeeService {
 
   public static void main(String[] args) {
     Employee emp = new Employee("Stephen", "Sams", "Saber", "password", "email", EmployeeRole.EMPLOYEE);
-    EmployeeService es = new EmployeeService(new FakeDao());
+    EmployeeService es = new EmployeeService(new Dao());
     System.out.println(es.register(emp));
     System.out.println(es.getEmployees());
 
