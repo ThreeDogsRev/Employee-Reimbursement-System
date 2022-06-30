@@ -25,6 +25,7 @@ public class LoginServlet extends HttpServlet {
 
     try {
       user = employeeService.confirmLogin(username, password);
+      System.out.println(user.getUsername() + " logged in successfully");
       request.getSession().setAttribute("user", user);
     } catch (UserNotFoundException e) {
       request.setAttribute("message", "User not found");

@@ -14,6 +14,7 @@ import com.revature.dao.FakeDao;
 import com.revature.models.Employee;
 import com.revature.models.EmployeeRole;
 import com.revature.service.EmployeeService;
+import com.revature.utils.FormInputValidator;
 
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
@@ -37,11 +38,11 @@ public class RegistrationServlet extends HttpServlet {
 		System.out.println("email: <" + email + ">");
 		System.out.println("password: <" + password + ">");
 
-		if (checkName(firstname) || 
-				checkName(lastname) || 
-				checkUsername(username) || 
-				checkEmail(email) ||
-				checkPassword(password)) {
+		if (FormInputValidator.checkName(firstname) ||
+				FormInputValidator.checkName(lastname) ||
+				FormInputValidator.checkUsername(username) ||
+				FormInputValidator.checkEmail(email) ||
+				FormInputValidator.checkPassword(password)) {
 			PrintWriter out = resp.getWriter();
 			resp.setContentType("text/html");
 			out.println("<h1>Registration failed.  One or more fields missing</h1>");
@@ -74,21 +75,4 @@ public class RegistrationServlet extends HttpServlet {
 			out.println("<a href=\"index.html\">Back</a>");
 		}
 	}
-
-	private static boolean checkUsername(String username) {
-		return username.matches("[a-zA-Z10-9]{4,24}");
-	}
-	
-	private static boolean checkEmail(String email) {
-		return email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$");
-	}
-
-	private static boolean checkPassword(String password) {
-		return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,24}$");
-	}
-
-	private static boolean checkName(String name) {
-		return name.matches("^[a-zA-Z]{2,24}");
-	}
-
 }

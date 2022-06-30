@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -57,27 +58,26 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void testGetEmployee_ById_Success() {
+    void testGetEmployee_ById_Success() throws SQLException {
         Employee e = this.mockData.get(0);
         int id = e.getId();
 
         when(this.mockDao.selectById(id)).thenReturn(e);
         Employee expected = e;
-        Optional<Employee> actual = this.eServ.getEmployee(id);
+        Employee actual = this.eServ.getEmployee(id);
 
-        assertTrue(actual.isPresent());
-        assertEquals(expected, actual.get());
+        assertTrue(actual != null);
+        assertEquals(expected, actual);
     }
 
     @Test
-    void testGetEmployee_ById_Fail_IdNotFound() {
+    void testGetEmployee_ById_Fail_IdNotFound() throws SQLException {
         int id = 999;
 
         when(this.mockDao.selectById(id)).thenReturn(null);
-        Optional<Employee> actual = this.eServ.getEmployee(id);
+        Employee actual = this.eServ.getEmployee(id);
 
-        assertFalse(actual.isPresent());
-        assertThrows(NoSuchElementException.class, () -> actual.get());
+        assertFalse(actual == null);
     }
 
     @Test

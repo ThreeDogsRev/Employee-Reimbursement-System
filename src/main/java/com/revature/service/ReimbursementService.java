@@ -30,4 +30,14 @@ public class ReimbursementService {
     return reimbursements;
   }
 
+  public List<Reimbursement> getReimbursements() {
+    List<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
+    List<Employee> employees = dao.selectAll();
+    for(Employee employee: employees) {
+      for(Reimbursement reimbursement: employee.getReimbursements()) {
+        reimbursements.add(reimbursement);
+      }
+    }
+    return reimbursements;
+  }
 }
