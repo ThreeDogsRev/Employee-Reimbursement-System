@@ -26,5 +26,12 @@ public class FormInputValidator {
 	public static boolean checkName(String name) {
 		return name.matches("^[a-zA-Z]{2,24}");
 	}
-  
+
+	public static void main(String[] args) {
+		System.out.println(checkName("joe"));
+		System.out.println(checkName("dirt"));
+		System.out.println(checkUsername("jDirt"));
+		System.out.println(checkEmail("jdirt@gmail.com"));
+		System.out.println(checkPassword("123Password!"));
+	}
 }

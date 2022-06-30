@@ -38,11 +38,11 @@ public class RegistrationServlet extends HttpServlet {
 		System.out.println("email: <" + email + ">");
 		System.out.println("password: <" + password + ">");
 
-		if (FormInputValidator.checkName(firstname) ||
-				FormInputValidator.checkName(lastname) ||
-				FormInputValidator.checkUsername(username) ||
-				FormInputValidator.checkEmail(email) ||
-				FormInputValidator.checkPassword(password)) {
+		if (!FormInputValidator.checkName(firstname) ||
+				!FormInputValidator.checkName(lastname) ||
+				!FormInputValidator.checkUsername(username) ||
+				!FormInputValidator.checkEmail(email) ||
+				!FormInputValidator.checkPassword(password)) {
 			PrintWriter out = resp.getWriter();
 			resp.setContentType("text/html");
 			out.println("<h1>Registration failed.  One or more fields missing</h1>");
