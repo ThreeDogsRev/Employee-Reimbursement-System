@@ -1,11 +1,14 @@
 package com.revature.web;
 
-import javax.servlet.RequestDispatcher;
+import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dao.FakeDao;
 import com.revature.exceptions.PasswordInvalidException;
 import com.revature.exceptions.UserNotFoundException;
@@ -18,32 +21,28 @@ public class LoginServlet extends HttpServlet {
   EmployeeService employeeService = new EmployeeService(new FakeDao());
 
   @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String username = request.getParameter("username");
     String password = request.getParameter("password");
     Employee user = null;
+    String message = "";
 
     try {
       user = employeeService.confirmLogin(username, password);
       System.out.println(user.getUsername() + " logged in successfully");
       request.getSession().setAttribute("user", user);
     } catch (UserNotFoundException e) {
-      request.setAttribute("message", "User not found");
+      message = "User not found";
     } catch (PasswordInvalidException e) {
-      request.setAttribute("message", "Password Invalid");
+      message = "Password is invalid";
     } catch (Exception e) {
-      request.setAttribute("message", e.getMessage());
+      message = "Something went wrong";
     }
-    RequestDispatcher dispatcher = (user == null)
-    ? request.getRequestDispatcher("index.html")
-    : request.getRequestDispatcher("employeeHomePage.html");
-    try{
-      dispatcher.forward(request, response);
-    } catch (Exception e) {
-      throw new ServletException(e);
+    if(user != null) {
+      response.sendRedirect("employeeHomePage.html");
+    } else {
+      response.getWriter().write(new ObjectMapper().writeValueAsString(message));
     }
-
-
   }
 
 }
