@@ -1,5 +1,6 @@
 package com.revature.utils;
 
+import com.revature.models.ReimbursementStatus;
 import com.revature.models.ReimbursementType;
 
 public class FormInputValidator {
@@ -30,22 +31,15 @@ public class FormInputValidator {
 	}
 
 
-  public boolean isValidAmount(String amount) {
-		try {
-			Long.parseLong(amount);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		} catch (Exception e) {
-			return false;
-		}
+  public static boolean isValidAmount(String amount) {
+		return amount.matches("([0-9]{1,3},)*[0-9]*\\.[0-9]{2}");
   }
 
-  public boolean isValidDescription(String desciption) {
+  public static boolean isValidDescription(String desciption) {
 		return desciption.length() <= 255;
   }
 
-	public boolean isValidType(String type) {
+	public static boolean isValidType(String type) {
 		try {
 			ReimbursementType.valueOf(type.toUpperCase());
 			return true;
@@ -53,4 +47,27 @@ public class FormInputValidator {
 			return false;
 		}
 	}
+
+	public static long parseAmount(String amount) throws NumberFormatException {
+    // Enforced 2 decimal places, so we can round to the nearest cent
+    // optional commas are allowed, so we need to remove them
+    if(isValidAmount(amount)){
+      throw new NumberFormatException("Invalid amount");
+    }
+    return Math.round(Double.parseDouble(amount.replace(",", "")) * 100);
+  }
+
+  public static boolean isValidStatus(String status) {
+		try {
+			ReimbursementStatus.valueOf(status.toUpperCase());
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public static void main(String[] args) {
+		System.out.println(isValidAmount("420.69"));
+	}
+
 }

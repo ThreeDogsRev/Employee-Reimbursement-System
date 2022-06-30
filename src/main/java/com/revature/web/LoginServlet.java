@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.dao.EmployeeDao;
 import com.revature.dao.FakeDao;
 import com.revature.exceptions.PasswordInvalidException;
 import com.revature.exceptions.UserNotFoundException;
@@ -18,7 +19,7 @@ import com.revature.service.EmployeeService;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  EmployeeService employeeService = new EmployeeService(new FakeDao());
+  EmployeeService employeeService = new EmployeeService(new EmployeeDao());
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

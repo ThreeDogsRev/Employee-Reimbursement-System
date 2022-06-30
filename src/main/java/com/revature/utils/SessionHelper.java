@@ -33,6 +33,7 @@ public class SessionHelper {
 		configuration.configure("hibernate.cfg.xml");
 		configuration.addAnnotatedClass(Employee.class);
 		configuration.addAnnotatedClass(Reimbursement.class);
+		configuration.setProperty("hibernate.temp.use_jdbc_metadata_defaults","false");
 		ServiceRegistry srvcReg = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 		sessionFactory = configuration.buildSessionFactory(srvcReg);
 	}

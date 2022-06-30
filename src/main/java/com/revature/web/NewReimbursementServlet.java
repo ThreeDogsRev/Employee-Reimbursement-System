@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.revature.dao.EmployeeDao;
 import com.revature.dao.FakeDao;
 import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
@@ -21,7 +22,7 @@ public class NewReimbursementServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    EmployeeService es = new EmployeeService(new FakeDao());
+    EmployeeService es = new EmployeeService(new EmployeeDao());
 
     // 1. extract all values from the parameters
     String amount = req.getParameter("amount");
@@ -50,21 +51,20 @@ public class NewReimbursementServlet extends HttpServlet {
     }
 
     // 2. validate the values
-    FormInputValidator fiv = new FormInputValidator();
     try {
-      parsedAmount = parseAmount(amount);
+      parsedAmount = FormInputValidator.parseAmount(amount);
     } catch (NumberFormatException e) {
       resp.setStatus(400);
       resp.getWriter().write("Invalid amount, format should be 123.42 or 123,234.42");
       return;
     }
 
-    if (!fiv.isValidType(type)) {
+    if (!FormInputValidator.isValidType(type)) {
       resp.setStatus(400);
       resp.getWriter().write("Invalid type");
       return;
     }
-    if (!fiv.isValidDescription(description)) {
+    if (!FormInputValidator.isValidDescription(description)) {
       resp.setStatus(400);
       resp.getWriter().write("Invalid description");
       return;
@@ -96,14 +96,4 @@ public class NewReimbursementServlet extends HttpServlet {
       return;
     }
   }
-
-  private static long parseAmount(String amount) throws NumberFormatException {
-    // Enforced 2 decimal places, so we can round to the nearest cent
-    // optional commas are allowed, so we need to remove them
-    if(!amount.matches("([0-9]{1,3},)*[0-9]*\\.[0-9]{2}")){
-      throw new NumberFormatException("Invalid amount");
-    }
-    return Math.round(Double.parseDouble(amount.replace(",", "")) * 100);
-  }
-
 }

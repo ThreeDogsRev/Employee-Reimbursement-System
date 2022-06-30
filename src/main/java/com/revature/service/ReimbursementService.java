@@ -1,7 +1,9 @@
 package com.revature.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.revature.dao.IDao;
 import com.revature.models.Employee;
@@ -12,6 +14,16 @@ public class ReimbursementService {
 
   public ReimbursementService(IDao<Employee> ed) {
     this.dao = ed;
+  }
+
+  public Reimbursement getReimbursement(int id) throws SQLException {
+    Optional<Reimbursement> possibleReimbursment = getReimbursements().stream()
+        .filter(reimb -> reimb.getId() == id).findFirst();
+
+    if (possibleReimbursment.isPresent()) {
+      return possibleReimbursment.get();
+    }
+    throw new SQLException("No reimbursement with id " + id + " found");
   }
 
   public List<Reimbursement> getReimbursementsCopy() {
