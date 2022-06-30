@@ -3,14 +3,14 @@ package com.revature.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.revature.dao.Dao;
 import com.revature.dao.IDao;
-import com.revature.models.*;;
+import com.revature.models.Employee;
+import com.revature.models.Reimbursement;;
 
 public class ReimbursementService {
-  private IDao dao;
+  private IDao<Employee> dao;
 
-  public ReimbursementService(IDao ed) {
+  public ReimbursementService(IDao<Employee> ed) {
     this.dao = ed;
   }
 

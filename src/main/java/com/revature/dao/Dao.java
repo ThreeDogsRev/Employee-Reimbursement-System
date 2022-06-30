@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.revature.models.Employee;
-import com.revature.models.EmployeeRole;
 import com.revature.utils.SessionHelper;
 
 
