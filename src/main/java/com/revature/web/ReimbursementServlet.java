@@ -61,9 +61,4 @@ public class ReimbursementServlet extends HttpServlet {
     out.write(json);
   }
 
-  @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-    return;
-  }
-
 }

@@ -17,6 +17,10 @@ import com.revature.models.Reimbursement;
  */
 public class SessionHelper {
 	private static SessionFactory sessionFactory = null;
+	
+	private SessionHelper() {
+
+	}
 
 	static {
 		try {
@@ -42,7 +46,7 @@ public class SessionHelper {
 		Session retSession = null;
 		try {
 			retSession = sessionFactory.openSession();
-		} catch (Throwable t) {
+		} catch (Exception t) {
 			System.err.println("Exception while getting session.. ");
 			t.printStackTrace();
 		}

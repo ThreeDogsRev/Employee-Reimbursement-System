@@ -36,7 +36,7 @@ public class FakeDao implements IDao<Employee> {
 
   @Override
   public List<Employee> selectAll() {
-    return new ArrayList<Employee>(employees.values());
+    return new ArrayList<>(employees.values());
   }
 
   @Override 

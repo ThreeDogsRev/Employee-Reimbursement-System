@@ -18,7 +18,7 @@ import com.revature.service.EmployeeService;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  EmployeeService employeeService = new EmployeeService(new FakeDao());
+  private static EmployeeService employeeService = new EmployeeService(new FakeDao());
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

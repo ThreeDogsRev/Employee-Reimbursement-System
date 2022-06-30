@@ -81,17 +81,3 @@ function fetchEmps() {
   // The JS object is an array of Employee objects
   // passes to the build table
 }
-
-// // object literal in JS
-// let user = {
-
-//     firstName: "first",
-//     lastName: "last",
-//     username : "bob",
-//     passowrd : "secretpass"
-
-// }
-
-function sayHello() {
-  console.log("Hello there!");
-}

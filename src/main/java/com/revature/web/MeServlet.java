@@ -18,14 +18,12 @@ import com.revature.utils.FormInputValidator;
 
 @WebServlet("/me")
 public class MeServlet extends HttpServlet {
-  ObjectMapper om;
-  EmployeeService es;
+  private static ObjectMapper om = new ObjectMapper();
+  private static EmployeeService es = new EmployeeService(new FakeDao());
 
   public MeServlet() {
-    om = new ObjectMapper();
-    om.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
-    om.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
-    es = new EmployeeService(new FakeDao());
+    MeServlet.om.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+    MeServlet.om.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
   }
 
   @Override
@@ -113,12 +111,12 @@ public class MeServlet extends HttpServlet {
   }
 
   private void write(HttpServletResponse resp, String string) {
-    PrintWriter out = null;
     try {
-      out = resp.getWriter();
+      PrintWriter out = resp.getWriter();
+      out.write("<p>" + string + "</p>");
+      out.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
-    out.write("<p>" + string + "</p>");
   }
 }

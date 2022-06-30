@@ -8,7 +8,7 @@ public class FormInputValidator {
 		if(username == null || username.isEmpty()) {
 			return false;
 		}
-		return username.matches("[a-zA-Z10-9]{4,24}");
+		return username.matches("[a-zA-Z0-9]{4,24}");
 	}
 	
 	public static boolean checkEmail(String email) {
@@ -34,8 +34,6 @@ public class FormInputValidator {
 		try {
 			Long.parseLong(amount);
 			return true;
-		} catch (NumberFormatException e) {
-			return false;
 		} catch (Exception e) {
 			return false;
 		}

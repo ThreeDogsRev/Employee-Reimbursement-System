@@ -1,11 +1,6 @@
 package com.revature.service;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -13,11 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import com.revature.dao.Dao;
@@ -73,7 +64,7 @@ class EmployeeServiceTest {
         Employee expected = e;
         Employee actual = this.eServ.getEmployee(id);
 
-        assertTrue(actual != null);
+        assertNotNull(actual);
         assertEquals(expected, actual);
     }
 
@@ -84,7 +75,7 @@ class EmployeeServiceTest {
         when(this.mockDao.selectById(id)).thenReturn(null);
         Employee actual = this.eServ.getEmployee(id);
 
-        assertFalse(actual == null);
+        assertNotNull(actual);
     }
 
     @Test

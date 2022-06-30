@@ -63,7 +63,7 @@ public class Employee implements Serializable{
 
     @JsonManagedReference 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "author")
-    private List<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
+    private List<Reimbursement> reimbursements = new ArrayList<>();
 
     public Employee(Employee employee) {
         this.id = employee.id;

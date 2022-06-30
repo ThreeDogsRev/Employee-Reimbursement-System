@@ -27,7 +27,7 @@ public class NewReimbursementServlet extends HttpServlet {
     String amount = req.getParameter("amount");
     String type = req.getParameter("type");
     String description = req.getParameter("description");
-    Long parsedAmount = 0L;
+    Long parsedAmount;
 
     System.out.println("NewReimbursementServlet.doPost()");
     System.out.println("amount: <" + amount + ">");
@@ -93,7 +93,6 @@ public class NewReimbursementServlet extends HttpServlet {
     } catch (Exception e) {
       resp.setStatus(500);
       resp.getWriter().write("Something went wrong");
-      return;
     }
   }
 
