@@ -2,7 +2,6 @@ package com.revature.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,21 +11,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.revature.dao.Dao;
 import com.revature.dao.FakeDao;
-import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementStatus;
 import com.revature.models.ReimbursementType;
-import com.revature.service.EmployeeService;
 import com.revature.service.ReimbursementService;
 
 @WebServlet("/reimbursements")
 public class ReimbursementServlet extends HttpServlet {
-  private static EmployeeService es = new EmployeeService(new FakeDao());
   private static ReimbursementService rs = new ReimbursementService(new FakeDao());
   private static ObjectMapper om = new ObjectMapper();
 
@@ -72,33 +66,4 @@ public class ReimbursementServlet extends HttpServlet {
     return;
   }
 
-  public static void main(String[] args) throws JsonProcessingException {
-    List<Reimbursement> reimbursements = rs.getReimbursementsCopy();
-
-    String query = "status=PENDING&type=LODGING";
-
-    if(query != null){
-      String[] queryParams = query.split("&");
-      for(String param : queryParams){
-        String[] keyValue = param.split("=");
-
-        if(keyValue[0].equals("status")){
-          reimbursements = reimbursements.stream()
-            .filter(predicate -> predicate.getStatus()
-              .equals(ReimbursementStatus.valueOf(keyValue[1].toUpperCase())))
-            .collect(Collectors.toList());
-        }
-        if(keyValue[0].equals("type")){
-          reimbursements = reimbursements.stream()
-            .filter(predicate -> predicate.getType()
-              .equals(ReimbursementType.valueOf(keyValue[1].toUpperCase())))
-            .collect(Collectors.toList());
-        }
-      }
-    }
-
-
-    String json = om.writeValueAsString(reimbursements);
-    System.out.println(json);
-  }
 }

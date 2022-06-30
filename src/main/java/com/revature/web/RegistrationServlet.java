@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.revature.dao.FakeDao;
 import com.revature.models.Employee;
@@ -70,9 +69,8 @@ public class RegistrationServlet extends HttpServlet {
 		} else {
 
 			PrintWriter out = resp.getWriter();
-			resp.setContentType("text/html");
-			out.println("<h1>Registration failed.  Username already exists</h1>");
-			out.println("<a href=\"index.html\">Back</a>");
+			resp.setContentType("text/json");
+			out.println("{\"message\":\"Registration failed.  Username already exists\"}");
 		}
 	}
 }
