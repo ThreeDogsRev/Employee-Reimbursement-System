@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import com.revature.dao.Dao;
+import com.revature.dao.EmployeeDao;
 import com.revature.exceptions.PasswordInvalidException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Employee;
@@ -30,7 +30,7 @@ import com.revature.models.EmployeeRole;
 class EmployeeServiceTest {
 
     private EmployeeService eServ;
-    private Dao mockDao;
+    private EmployeeDao mockDao;
     private List<Employee> mockData;
 
     @BeforeAll
@@ -46,7 +46,7 @@ class EmployeeServiceTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        this.mockDao = mock(Dao.class);
+        this.mockDao = mock(EmployeeDao.class);
         this.eServ = new EmployeeService(this.mockDao);
     }
 

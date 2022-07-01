@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.revature.dao.EmployeeDao;
 import com.revature.dao.FakeDao;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementStatus;
@@ -21,7 +22,7 @@ import com.revature.service.ReimbursementService;
 
 @WebServlet("/reimbursements")
 public class ReimbursementServlet extends HttpServlet {
-  private static ReimbursementService rs = new ReimbursementService(new FakeDao());
+  private static ReimbursementService rs = new ReimbursementService(new EmployeeDao());
   private static ObjectMapper om = new ObjectMapper();
 
   public ReimbursementServlet() {

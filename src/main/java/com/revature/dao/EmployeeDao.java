@@ -8,12 +8,13 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.revature.models.Employee;
+import com.revature.models.Reimbursement;
 import com.revature.utils.SessionHelper;
 
 
-public class Dao implements IDao<Employee> {
+public class EmployeeDao implements IDao<Employee> {
 
-  public Dao() {
+  public EmployeeDao() {
     super();
   }
 
@@ -46,7 +47,9 @@ public class Dao implements IDao<Employee> {
     } catch (HibernateException e) {
       e.printStackTrace();
     } finally {
-      try {if(session != null) session.close();} catch(Exception e) {
+      try {
+        if(session != null) session.close();
+      } catch(Exception e) {
         e.printStackTrace();
       }
     }
@@ -73,6 +76,7 @@ public class Dao implements IDao<Employee> {
     }
     return employee;
   }
+
 
 
 }
