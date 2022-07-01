@@ -46,6 +46,8 @@ const reimbursmentCard = document.getElementById("submitReimbursement");
 //const userInputs = reimbursmentCard.querySelectorall("input");
 const userInputsType = document.getElementById("type-select");
 const requests = document.getElementById("get-Requests");
+const approved = document.getElementById("get-aproved");
+const denied = document.getElementById("get-denied");
 const table = document.querySelector("table");
 
 const submitReimbursement = () => {
@@ -57,8 +59,8 @@ const submitReimbursement = () => {
 
 //render tables
 
-const renderTableRequests = (data) => {
-    console.log("hihi");
+const renderTableRequests = (data, type) => {
+    //console.log("hihi");
     let header = document.createElement("thead");
     let headerRow = document.createElement("tr");
 
@@ -88,7 +90,7 @@ const renderTableRequests = (data) => {
     headerRow.appendChild(th7);
 
     data.forEach((element) => {
-        if (element.status === "PENDING") {
+        if (element.status === type) {
             let row = document.createElement("tr");
             let td1 = document.createElement("td");
             let td2 = document.createElement("td");
@@ -123,8 +125,15 @@ const test = () => {
     console.log("nyo");
 };
 requests.onclick = function () {
-    renderTableRequests(testArray);
+    renderTableRequests(testArray, "PENDING");
 };
+approved.onclick = function () {
+    renderTableRequests(testArray, "APPROVED");
+};
+denied.onclick = function () {
+    renderTableRequests(testArray, "DENIED");
+};
+
 const renderTableEmpData = (data) => {
     let header = document.createElement("thead");
     let headerRow = document.createElement("tr");
