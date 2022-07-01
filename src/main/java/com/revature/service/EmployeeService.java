@@ -2,14 +2,11 @@ package com.revature.service;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
-import com.revature.dao.Dao;
-import com.revature.dao.FakeDao;
 import com.revature.dao.IDao;
 import com.revature.exceptions.PasswordInvalidException;
 import com.revature.exceptions.UserNotFoundException;
-import com.revature.models.*;
+import com.revature.models.Employee;
 
 public class EmployeeService {
 
@@ -59,11 +56,4 @@ public class EmployeeService {
     return this.createEmployee(employee);
   }
 
-  public static void main(String[] args) {
-    Employee emp = new Employee("Stephen", "Sams", "Saber", "password", "email", EmployeeRole.EMPLOYEE);
-    EmployeeService es = new EmployeeService(new FakeDao());
-    System.out.println(es.register(emp));
-    System.out.println(es.getEmployees());
-
-  }
 }

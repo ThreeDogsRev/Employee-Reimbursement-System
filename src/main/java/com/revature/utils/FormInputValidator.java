@@ -1,5 +1,7 @@
 package com.revature.utils;
 
+import com.revature.models.ReimbursementType;
+
 public class FormInputValidator {
 
   public static boolean checkUsername(String username) {
@@ -26,5 +28,29 @@ public class FormInputValidator {
 	public static boolean checkName(String name) {
 		return name.matches("^[a-zA-Z]{2,24}");
 	}
-  
+
+
+  public boolean isValidAmount(String amount) {
+		try {
+			Long.parseLong(amount);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+  }
+
+  public boolean isValidDescription(String desciption) {
+		return desciption.length() <= 255;
+  }
+
+	public boolean isValidType(String type) {
+		try {
+			ReimbursementType.valueOf(type.toUpperCase());
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }
