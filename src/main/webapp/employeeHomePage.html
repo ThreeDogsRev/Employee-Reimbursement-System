@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="empHomeJS.js" defer></script>
 </head>
 <body>
     <header>
@@ -26,13 +27,13 @@
                 <div class="card-header text text-center">
                     <h3>Create a new request for reimbursement</h3>
                 </div>
-                <div class="card-body">
-                    <form method="post" action = "subminReimbursement">
+                <div class="card-body" id="submitReimbursement">
+                    <form method="post" action = "submitReimbursement">
                         <label class="form-lable">Username</label>
-                        <input class="form-control"  type="text" name="username" placeholder="Enter a username"/>
+                        <input class="form-control"  type="text" name="username" placeholder="Enter a username" required/>
 
-                        <label class="form-lable">Type of expense</label>
-                        <select class="form-select">
+                        <label class="form-lable" >Type of expense</label>
+                        <select id = "type-select" class="form-select" required>
                             <option selected>Select type form this menu</option>
                             <option value="LODGING">Lodging</option>
                             <option value="TRAVEL">travel</option>
@@ -43,10 +44,10 @@
                        
 
                         <label class="form-lable">Request Amount</label>
-                        <input class="form-control"  type="text" name="amount" placeholder="amount spent"/>
+                        <input class="form-control"  type="text" name="amount" placeholder="amount spent" required/>
 
                         <label class="form-lable">Description of expense</label>
-                        <input class="form-control"  type="text" name="description" placeholder="description"/>
+                        <input class="form-control"  type="text" name="description" placeholder="description" required/>
                         
                         <label for="formFile" class="form-label">Receipt upload</label>
                         <input class="form-control" type="file" name="receipt">
@@ -63,13 +64,17 @@
             </form>
             !-->
             <div class="card col-3">
-                <div class="card-header text-center">
+               <!-- <div class="card-header text-center">
                     <h3>View your pending requests</h3>
                 </div>
                 <div class="card-body">
                     <form method="post" action = "viewPendingRequests">
                     <input type="submit" value="View  requests">
                 </div>
+                -->
+                <button class="btn-primary" id = "get-Requests">test Requets pending</button>
+                <button class="btn-primary" id = "get-aproved">test Requets approved</button>
+                <button class="btn-primary" id = "get-denied">test Requets approved</button>
             </div>
 
             <div class="card col-3">
@@ -99,6 +104,8 @@
                 <input type="submit" value="Update your employment information">
             </form>
         </div>
+
+        <table class="table table-striped"></table>
         
     </main>
     
