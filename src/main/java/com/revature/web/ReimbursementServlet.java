@@ -35,6 +35,7 @@ public class ReimbursementServlet extends HttpServlet {
     // Todo: Check if a user is logged in and has permissions to view this page
     resp.setContentType("application/json");
     resp.addHeader("Access-Control-Allow-Origin", "*");
+    
     List<Reimbursement> reimbursements = rs.getReimbursementsCopy();
     String query = req.getQueryString();
     if(query != null){

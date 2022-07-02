@@ -22,6 +22,9 @@ public class LoginServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    response.setContentType("application/json");
+    response.addHeader("Access-Control-Allow-Origin", "*");
+
     String username = request.getParameter("username");
     String password = request.getParameter("password");
     Employee user = null;
@@ -39,7 +42,7 @@ public class LoginServlet extends HttpServlet {
       message = "Something went wrong";
     }
     if(user != null) {
-      response.sendRedirect("employeeHomePage.html");
+      response.sendRedirect("/employee-reimbursement-system");
     } else {
       response.getWriter().write(new ObjectMapper().writeValueAsString(message));
     }

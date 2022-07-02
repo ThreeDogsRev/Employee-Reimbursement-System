@@ -30,6 +30,9 @@ public class MeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
+    resp.setContentType("application/json");
+    resp.addHeader("Access-Control-Allow-Origin", "*");
+    
     System.out.println("doGet()");
     Employee employee = (Employee) request.getSession().getAttribute("user");
     System.out.println(employee);
@@ -40,6 +43,9 @@ public class MeServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    resp.setContentType("application/json");
+    resp.addHeader("Access-Control-Allow-Origin", "*");
+
     String firstname = req.getParameter("firstname");
     String lastname = req.getParameter("lastname");
     String username = req.getParameter("username");
