@@ -51,10 +51,10 @@ public class NewReimbursementServlet extends HttpServlet {
 
     // 2. validate the values
     try {
-      parsedAmount = FormInputValidator.parseAmount(amount);
+      parsedAmount = ((Double) (Double.parseDouble(amount) * 100)).longValue();
     } catch (NumberFormatException e) {
       resp.setStatus(400);
-      resp.getWriter().write("Invalid amount, format should be 123.42 or 123,234.42");
+      resp.getWriter().write("Could not parse amount");
       return;
     }
 
@@ -86,7 +86,6 @@ public class NewReimbursementServlet extends HttpServlet {
     try {
       // 3. save the reimbursement object to the database and the session
       es.updateEmployee(user);
-      req.getSession().setAttribute("user", user);
       resp.setStatus(200);
       resp.getWriter().write("Reimbursement submitted successfully");
     } catch (Exception e) {
