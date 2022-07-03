@@ -13,7 +13,6 @@
     />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="js/login.js" defer></script>
-    <script src="js/empHomeJS.js" defer></script>
     <script src="js/reimbursementHandler.js" defer></script>
     <script src="js/userHandler.js" defer></script>
     <script
@@ -84,8 +83,8 @@
         </header>
         <h1 id="welcome-message">Welcome Employee</h1>
 
-        <div class="container">
-          <div class="card-header">
+        <div id ='reimbursements-container' class="container">
+          <div id='reimbursements-card' class="card-header">
             <h3>Active Reimbursements</h3>
             <table
               id="reimbursements-table"
@@ -98,7 +97,17 @@
             </button>
           </div>
         </div>
+
+        <div id ='manager-container' class="container">
+          <div id='manager-card' class="card-header">
+            <h3>Manager</h3>
+            <table
+              id="manager-table"
+              class="table table-bordered"
+            ></table>
+          </div>
       </div>
+
 
       <div id="new-reimbursement-modal" class="modal">
         <button id="new-reimbursement-modal-close" class="close">X</button>

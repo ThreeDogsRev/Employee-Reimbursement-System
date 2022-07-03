@@ -61,7 +61,7 @@ public class RegistrationServlet extends HttpServlet {
 
 			// add the user to the session
 			req.getSession().setAttribute("user", user);
-			req.getRequestDispatcher("").forward(req, resp);
+			resp.sendRedirect("/employee-reimbursement-system");
 
 		} else {
 

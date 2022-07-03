@@ -113,3 +113,16 @@ input.currency {
   border-radius: 10px 10px 0 0;
   text-align: center;
 }
+
+#manager-container {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+#manager-container.active {
+  display: block;
+}
+
