@@ -80,7 +80,7 @@ public class Reimbursement implements Serializable{
   @Column(name = "modify_date")
   private Date lastModified;
 
-
+  @JsonBackReference 
   @OneToOne(fetch = FetchType.EAGER)
   private Employee resolver;
 

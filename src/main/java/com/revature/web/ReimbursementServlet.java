@@ -1,5 +1,6 @@
 package com.revature.web;
 
+import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -35,6 +36,8 @@ public class ReimbursementServlet extends HttpServlet {
     // Todo: Check if a user is logged in and has permissions to view this page
     resp.setContentType("application/json");
     resp.addHeader("Access-Control-Allow-Origin", "*");
+    System.out.println("GET: /reimbursements");
+    System.out.println("User: " + req.getSession().getAttribute("user"));
     
     List<Reimbursement> reimbursements = rs.getReimbursementsCopy();
     String query = req.getQueryString();
@@ -57,7 +60,16 @@ public class ReimbursementServlet extends HttpServlet {
         }
       }
     }
+    reimbursements = reimbursements.stream()
+      .map((Reimbursement r) -> {
+        return new Reimbursement(r) {
+          public String submitter = r.getAuthor().getFirstName() + " " + r.getAuthor().getLastName();
+        };
+      }).collect(Collectors.toList());
+
+
     String json = om.writeValueAsString(reimbursements);
+    System.out.println(json);
     PrintWriter out = resp.getWriter();
     out.write(json);
   }

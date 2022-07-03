@@ -24,38 +24,130 @@ localStorage.setItem(
   })
 );
 
-const check_logged_in = () => {
+
+const fetchPendingReimbursements = () => {
+  return fetch("reimbursements?status=PENDING")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      return data;
+    });
+};
+
+
+const approve_reimbursement = async (reimbursement_id) => {
+  fetch(`update-reimbursement?id=${reimbursement_id}&status=APPROVED`).then((response) => {
+    console.log(response);
+    initilize();
+  });
+}
+
+const deny_reimbursement = async (reimbursement_id) => {
+  fetch(`update-reimbursement?id=${reimbursement_id}&status=DENIED`).then((response) => {
+    console.log(response);
+    initilize();
+  });
+}
+
+
+const approve_deny_button = (reimbursement) => {
+  if (reimbursement.status === "PENDING") {
+    const div = document.createElement('div');
+    div.innerHTML = `\
+      <button class="btn btn-outline-primary" onclick="approve_reimbursement(${reimbursement.id})">${String.fromCodePoint(0x2714, 0xFE0F)}</button>
+      <button class="btn btn-outline-danger" onclick="deny_reimbursement(${reimbursement.id})">${String.fromCodePoint(0x274C)}</button>`
+    return div;
+  } else {
+    return document.createElement('div');
+  }
+}
+
+const drawPendingReimbursements = (reimbursements) => {
+  const table = document.createElement("table");
+  table.setAttribute("id", "reimbursements-table");
+  table.setAttribute("class", "table table-striped");
+
+  if(!reimbursements) {
+    const no_reimbursements = document.createElement("div");
+    no_reimbursements.setAttribute("class", "no-reimbursements");
+    no_reimbursements.innerText = "No pending reimbursements";
+    document.getElementById("admin-dashboard").appendChild(no_reimbursements);
+    return;
+  }
+
+  const header = document.createElement("thead");
+  header.appendChild(document.createElement("th")).innerText = "Id";
+  header.appendChild(document.createElement("th")).innerText = "Author";
+  header.appendChild(document.createElement("th")).innerText = "Type";
+  header.appendChild(document.createElement("th")).innerText = "Amount";
+  header.appendChild(document.createElement("th")).innerText = "Description";
+  header.appendChild(document.createElement("th")).innerText = "Approve/Deny";
+  table.appendChild(header);
+
+  const body = document.createElement("tbody");
+
+  reimbursements.forEach((reimbursement) => {
+    const row = document.createElement("tr");
+    const id = document.createElement("td");
+    id.innerText = reimbursement.id;
+    const author = document.createElement("td");
+    author.innerText = reimbursement.submitter;
+    const type = document.createElement("td");
+    type.innerText = reimbursement.type;
+    const amount = document.createElement("td");
+    amount.innerText = `$${reimbursement.amount / 100}`;
+    const description = document.createElement("td");
+    description.innerText = reimbursement.description;
+
+    row.appendChild(id);
+    row.appendChild(author);
+    row.appendChild(type);
+    row.appendChild(amount);
+    row.appendChild(description);
+    row.appendChild(approve_deny_button(reimbursement));
+    body.appendChild(row);
+    console.log(row.innerHTML);
+  });
+  table.appendChild(body);
+  document.getElementById("admin-dashboard").innerHTML = "";
+  document.getElementById("admin-dashboard").appendChild(table);
+};
+
+const initilize = () => {
   return fetch("me")
     .then((response) => response.json())
     .then((user) => {
       if (user == null) {
         document.getElementById("login-form").setAttribute("class", "active");
         document.getElementById("dashboard").setAttribute("class", "");
-        //document.getElementById("loading").setAttribute("class", "");
+        document.getElementById("admin-dashboard").setAttribute("class", "");
       } else {
         localStorage.setItem("user", JSON.stringify(user));
         document.getElementById("login-form").setAttribute("class", "");
         document.getElementById("dashboard").setAttribute("class", "active");
-        //document.getElementById("loading").setAttribute("class", "");
-      }
-    })
-    .then(() => {
+        // render th admin dashboard if the user is an admin
+      if(user.employeeRole === "ADMIN" || user.employeeRole === "MANAGER") {
+          document.getElementById("admin-dashboard").setAttribute("class", "loading");
+          fetchPendingReimbursements().then((reimbursements) => {
+            drawPendingReimbursements(reimbursements);
+          });
+      }}}).then(() => {
       document.getElementById("welcome-message").innerHTML =
-        localStorage.getItem("user")
-          ? `Welcome, ${JSON.parse(
-              localStorage.getItem("user")
-            ).firstName[0].toUpperCase()}${
-              JSON.parse(localStorage.getItem("user")).firstName.substring(1)
-            }`
-          : "Welcome, Employee";
+      localStorage.getItem("user")
+        ? `Welcome, ${JSON.parse(
+            localStorage.getItem("user")
+          ).firstName[0].toUpperCase()}${
+            JSON.parse(localStorage.getItem("user")).firstName.substring(1)
+          }`
+        : "Welcome, Employee";
     });
 };
 
-check_logged_in();
+initilize();
 
 document.getElementById("logout-button").addEventListener("click", () => {
   localStorage.removeItem("user");
   fetch("logout").then(() => {
-    check_logged_in();
+    initilize();
   });
 });

@@ -114,7 +114,7 @@ input.currency {
   text-align: center;
 }
 
-#manager-container {
+#admin-dashboard {
   display: none;
   flex-direction: column;
   align-items: center;
@@ -122,7 +122,12 @@ input.currency {
   height: 100vh;
 }
 
-#manager-container.active {
+#admin-dashboard.active {
   display: block;
+}
+
+#admin-dashboard.loading {
+  display: block;
+  animation: fade-slide-in 0.3s ease-out forwards;
 }
 
