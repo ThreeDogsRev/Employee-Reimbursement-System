@@ -36,6 +36,7 @@ public class EmployeesServlet extends HttpServlet {
     List<Employee> employees = new ArrayList<>();
     resp.setContentType("application/json");
     resp.addHeader("Access-Control-Allow-Origin", "*");
+    
     String query = req.getQueryString();
     if (query != null) {
       String[] queryParams = query.split("&");

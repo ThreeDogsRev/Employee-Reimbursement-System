@@ -3,6 +3,8 @@ package com.revature.utils;
 import com.revature.models.ReimbursementStatus;
 import com.revature.models.ReimbursementType;
 
+import jakarta.validation.constraints.Email;
+
 public class FormInputValidator {
 
   public static boolean checkUsername(String username) {
@@ -68,6 +70,7 @@ public class FormInputValidator {
 
 	public static void main(String[] args) {
 		System.out.println(isValidAmount("420.69"));
+		System.out.println(checkEmail("Manager@mail.com"));
 	}
 
 }

@@ -38,12 +38,12 @@ public interface IDao<T> {
     return null;
   }
 
-  default void persist(T entitiy) {
+  default void persist(T entity) {
     Session session = null;
     try {
       session = SessionHelper.getSession();
       session.beginTransaction();
-      session.persist(entitiy);
+      session.persist(entity);
       session.getTransaction().commit();
     } catch (HibernateException e) {
       e.printStackTrace();
@@ -80,7 +80,7 @@ public interface IDao<T> {
     try {
       session = SessionHelper.getSession();
       session.beginTransaction();
-      session.update(entity);
+      entity = (T) session.merge(entity);
       session.getTransaction().commit();
       return entity;
     } catch (HibernateException e) {
