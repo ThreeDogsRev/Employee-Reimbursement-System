@@ -45,7 +45,7 @@ const check_logged_in = () => {
           ? `Welcome, ${JSON.parse(
               localStorage.getItem("user")
             ).firstName[0].toUpperCase()}${
-              JSON.parse(localStorage.getItem("user")).firstName[1]
+              JSON.parse(localStorage.getItem("user")).firstName.substring(1)
             }`
           : "Welcome, Employee";
     });

@@ -42,7 +42,11 @@ public class LoginServlet extends HttpServlet {
       message = "Something went wrong";
     }
     if(user != null) {
-      response.sendRedirect("/employee-reimbursement-system");
+      try {
+        response.sendRedirect("/employee-reimbursement-system");
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     } else {
       response.getWriter().write(new ObjectMapper().writeValueAsString(message));
     }
