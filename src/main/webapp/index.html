@@ -11,26 +11,20 @@
       integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
       crossorigin="anonymous"
     />
-    <link
-    href="css/styles.css"
-    rel="stylesheet"
-  />
-
+    <link href="css/styles.css" rel="stylesheet" />
     <script src="js/login.js"></script>
     <script src="js/empHomeJS.js" defer></script>
-    <script src="js/new-reimbursement.js" defer></script>
+    <script src="js/reimbursementHandler.js" defer></script>
   </head>
 
   <body>
-    
     <div id="app" class="container">
-
-      <div id="loading" class="active">
+      <div id="modal-backdrop" class="">
         <p>Loading . . .</p>
       </div>
 
       <div id="login-form">
-          <div class="card">
+        <div class="card">
           <div class="shadow-lg">
             <div class="card-header text-center">
               <h1>Welcome Employee</h1>
@@ -44,15 +38,15 @@
 
                 <label>Username</label>
                 <input
-                type="text"
-                name="username"
+                  type="text"
+                  name="username"
                   placeholder="Enter a username"
-                  />
+                />
                 <br />
-                
+
                 <label>Password</label>
                 <input
-                type="password"
+                  type="password"
                   name="password"
                   placeholder="Enter a password"
                 />
@@ -61,92 +55,66 @@
               </form>
 
               <br />
-              
+
               <!--Whenever I want a button to submit sometype of HTTP request it has to be in a FORM -->
               <form method="GET" action="registration.html">
                 <input type="submit" value="Register!" />
               </form>
-              
+
               <!-- Later we'll put a form below which sends a GET request to view all the employees -->
               <button id="all-emps">View All Employees</button>
               <!-- ctrl + shift + v to preview-->
-              
+
               <table class="table table-striped"></table>
             </div>
           </div>
         </div>
       </div>
-      
-      <div id="dashboard">
-        <header>
-          <a href="index.html">
-          <p>Three Dogs Empolyment Company</p>
-        </a>
-      </header>
-      <h1>Welcome {placeholder}</h1>
-      <form method="get" action="logout">
-          <button>Logout</button>
-      </form>
-        <div class = "container">
-              <h2>Reimbursement center</h2>
-              <div class="row">
-                <div class="card col-6">
-                  <div class="card-header text text-center">
-                      <h3>Create a new request for reimbursement</h3>
-                    </div>
-                  <div class="card-body" id="submitReimbursement">
-                    <div id="reimbursement-form"></div>
-                  </div>
-              </div>
-              
-              <!-- <form method="post" action = "subminReimbursementpics">
-                <input type="submit" value="Submint a new receipt">
-              </form>
-              !-->
-              <div class="card col-3">
-                <!-- <div class="card-header text-center">
-                      <h3>View your pending requests</h3>
-                  </div>
-                  <div class="card-body">
-                      <form method="post" action = "viewPendingRequests">
-                      <input type="submit" value="View  requests">
-                  </div>
-                  -->
-                  <button class="btn-primary" id = "get-Requests">test Requets pending</button>
-                  <button class="btn-primary" id = "get-aproved">test Requets approved</button>
-                  <button class="btn-primary" id = "get-denied">test Requets approved</button>
-              </div>
 
-              <div class="card col-3">
-                  <div class="card-header text-center">
-                      <h3>View Your resolved reimbursments</h3>
-                  </div>
-                  <div class="card-body">
-                      <form method="post" action = "viewResolvedRequests">
-                          <input type="submit" value="View resolved reimbursementr">
-                  </div>
-              </div>
-              
-          </div>
-          </div>
+      <div id="dashboard active">
+        <header style="display: flex">
+          <p style="flex-grow: 1">Three Dogs Empolyment Company</p>
+          <form
+            method="get"
+            action="logout"
+            style="position: absolute; right: 0; top: 0"
+          >
+            <button>Logout</button>
+          </form>
+        </header>
+        <h1>Welcome {placeholder}</h1>
 
-          
-          <div class = "card">
-              <div class="card-head">
-                  <h2>Your info center</h2>
+        <div class="container">
+          <div class="row">
+            <div class="card col-12">
+              <div class="card-header text-center">
+                <h3>Pending Reimbursements</h3>
+
               </div>
-              <form method="post" action = "login">
-                  
-                  <input type="submit" value="View your employment information">
-              </form>
-              <form method="post" action = "login">
-                
-                  <input type="submit" value="Update your employment information">
-              </form>
+              <div class="card-body" id="new-reimbursement-button">
+                <div id="pending-reimbursements" class="pending-reimbursements"></div>
+                <button id="new-reimbursement-modal-open">
+                  Create a new request
+                </button>
+              </div>
+            </div>
           </div>
-          <table class="table table-striped"></table>  
+        </div>
       </div>
 
-    </div>  
+      <div id="new-reimbursement-modal" class="modal">
+        <button id="new-reimbursement-modal-close" class="close">X</button>
+        <h1 class="title">Submit a new Reimbursement</h1>
+        <div id="reimbursement-form" class="content"></div>
+      </div>
+
+      <div id="employee-information-modal" class="modal">
+        <div class="content">
+          <button id="employee-information-modal-close" class="close">X</button>
+          <h1 class="text-center">Employee Information</h1>
+          <div id="employee-information"></div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
