@@ -25,7 +25,7 @@ public class FormInputValidator {
 		if(password == null || password.isEmpty()) {
 			return false;
 		}
-		return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,24}$");
+		return password.length() >= 4;
 	}
 
 	public static boolean checkName(String name) {

@@ -61,10 +61,7 @@ public class RegistrationServlet extends HttpServlet {
 
 			// add the user to the session
 			req.getSession().setAttribute("user", user);
-			req.getRequestDispatcher("employeeHomePage.html").forward(req, resp);
-			// using the request dispatcher, forward the request and response to a new
-			// resource...
-			// send the user to a new page -- welcome.html
+			req.getRequestDispatcher("").forward(req, resp);
 
 		} else {
 
