@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Session;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.revature.dao.EmployeeDao;
@@ -32,7 +34,7 @@ public class MeServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
     resp.setContentType("application/json");
     resp.addHeader("Access-Control-Allow-Origin", "*");
-    
+
     System.out.println("doGet()");
     Employee employee = (Employee) request.getSession().getAttribute("user");
     System.out.println(employee);
@@ -50,7 +52,8 @@ public class MeServlet extends HttpServlet {
     String lastname = req.getParameter("lastname");
     String username = req.getParameter("username");
     String email = req.getParameter("email");
-    String password = req.getParameter("password");
+    String currentPassword = req.getParameter("currentPassword");
+    String newPassword = req.getParameter("newPassword");
 
     Employee employee = (Employee) req.getSession().getAttribute("user");
     System.out.println("POST: /me");
@@ -58,8 +61,23 @@ public class MeServlet extends HttpServlet {
     System.out.println("lastname: " + lastname);
     System.out.println("username: " + username);
     System.out.println("email: " + email);
-    System.out.println("password: " + password);
+    System.out.println("currentPassword: " + currentPassword);
+    System.out.println("newPassword: " + newPassword);
     System.out.println("employee: " + employee);
+
+    if (currentPassword == null || currentPassword.isEmpty()) {
+      resp.setStatus(400);
+      PrintWriter out = resp.getWriter();
+      out.write("{\"error\": \"Please enter your currentPassword password\"}");
+      return;
+    }
+
+    if (!currentPassword.equals(((Employee) req.getSession().getAttribute("user")).getPassword())){
+      resp.setStatus(400);
+      PrintWriter out = resp.getWriter();
+      out.write("{\"error\": \"Your password was incorrect\"}");
+      return;
+    }
 
     // validate firstname
     if (firstname != null && !firstname.isEmpty()) {
@@ -93,7 +111,7 @@ public class MeServlet extends HttpServlet {
 
     // validate email
     if (email != null && !email.isEmpty()) {
-      if (FormInputValidator.checkName(email.toLowerCase())) {
+      if (FormInputValidator.checkEmail(email.toLowerCase())) {
         employee.setEmail(email.toLowerCase());
       } else {
         write(resp, "Invalid Email");
@@ -102,11 +120,11 @@ public class MeServlet extends HttpServlet {
     }
 
     // validate password
-    if (password != null && !password.isEmpty()) {
-      if (FormInputValidator.checkPassword(password)) {
-        employee.setPassword(password);
+    if (newPassword != null && !newPassword.isEmpty()) {
+      if (FormInputValidator.checkPassword(newPassword)) {
+        employee.setPassword(newPassword);
       } else {
-        write(resp, "Invalid Password");
+        write(resp, "New Password is invalid");
         return;
       }
     }

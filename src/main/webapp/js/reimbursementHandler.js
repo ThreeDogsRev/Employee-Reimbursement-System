@@ -139,38 +139,7 @@ const generateForm = () => {
 }
 
 const fetchUsersReimbursements = () => {
-  const user = {
-    "id": 4,
-    "firstName": "Manager",
-    "lastName": "Manager",
-    "email": "Manager@mail.com",
-    "employeeRole": "MANAGER",
-    "reimbursements": [
-      {
-        "id": 4,
-        "status": "PENDING",
-        "type": "FOOD",
-        "submitDate": 1656824217197,
-        "amount": 2025,
-        "description": "Mcdonalds",
-        "lastModified": 1656824217197,
-        "resolver": null,
-        "receipt": null
-      },
-      {
-        "id": 5,
-        "status": "ACTIVE",
-        "type": "LODGING",
-        "submitDate": 1656824217197,
-        "amount": 3025,
-        "description": "THIS IS A REALLY LONG DESCRIPTION THAT SHOULD BE SHORTENED",
-        "lastModified": 1656824217197,
-        "resolver": null,
-        "receipt": null
-      }
-    ],
-    "username": "manager"
-  };
+  const user = JSON.parse(localStorage.getItem('user'));
   const reimbursements = user.reimbursements;
   return reimbursements;
 }

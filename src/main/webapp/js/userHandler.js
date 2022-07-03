@@ -32,9 +32,9 @@
     
           const firstNameInput = document.createElement('input');
           const firstNameFieldAttributes = {
-            'id': 'firstName',
+            'id': 'firstname',
             'type': 'string',
-            'name': 'firstName',
+            'name': 'firstname',
             'value': user.firstName,
           };
 
@@ -44,9 +44,9 @@
 
         const lastNameInput = document.createElement('input');
         const lastNameFieldAttributes = {
-          'id': 'lastName',
+          'id': 'lastname',
           'type': 'string',
-          'name': 'lastName',
+          'name': 'lastname',
           'value': user.lastName,
         };
 
@@ -112,13 +112,13 @@
         return form_row;
       }
 
-      const oldpassword = () => {
+      const currentPassword = () => {
         const form_row = document.createElement('div');
         form_row.setAttribute('class', 'form-row');
     
         const label = document.createElement('label');
-        label.setAttribute('for', 'password');
-        label.innerText = 'Old Password';
+        label.setAttribute('for', 'currentPassword');
+        label.innerText = 'Current Password';
         form_row.appendChild(label);
     
         const input_group = document.createElement('div');
@@ -126,8 +126,9 @@
     
           const input = document.createElement('input');
           const inputAttributes = {
+            'id': 'currentPassword',
             'type': 'password',
-            'name': 'oldpassword',
+            'name': 'currentPassword',
             'value': '',
           };
 
@@ -152,9 +153,9 @@
     
           const input = document.createElement('input');
           const inputAttributes = {
-            'id': 'password',
+            'id': 'newPassword',
             'type': 'password',
-            'name': 'password',
+            'name': 'newPassword',
             'value': '',
           };
 
@@ -182,7 +183,7 @@
       form.appendChild(nameField());
       form.appendChild(username());
       form.appendChild(email());
-      form.appendChild(oldpassword());
+      form.appendChild(currentPassword());
       form.appendChild(newpassword());
       form.appendChild(submit());
       form_container.appendChild(form);
@@ -193,7 +194,7 @@
 userSettingsModalCloseHandler = () => {
   document.getElementById('user-settings-modal').setAttribute('class', 'modal');
   document.getElementById('modal-backdrop').setAttribute('class', '');
-  document.getElementById('user-settings-form-container"').innerHTML = '';
+  document.getElementById('user-settings-form-container').innerHTML = '';
 }
 
 document.getElementById('user-settings-button').addEventListener('click', () => {
