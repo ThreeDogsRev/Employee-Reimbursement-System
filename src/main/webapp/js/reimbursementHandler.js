@@ -107,7 +107,7 @@ const generateForm = () => {
     form_row.appendChild(label);
 
     const input_attibutes = {
-      'id': 'reimbursement-form-type',
+      'id': 'reimbursement-form-description',
       'class': 'form-control',
       'name' : 'description',
       'maxlength': '255',
@@ -139,8 +139,81 @@ const generateForm = () => {
 }
 
 const fetchUsersReimbursements = () => {
-  
+  const user = {
+    "id": 4,
+    "firstName": "Manager",
+    "lastName": "Manager",
+    "email": "Manager@mail.com",
+    "employeeRole": "MANAGER",
+    "reimbursements": [
+      {
+        "id": 4,
+        "status": "PENDING",
+        "type": "FOOD",
+        "submitDate": 1656824217197,
+        "amount": 2025,
+        "description": "Mcdonalds",
+        "lastModified": 1656824217197,
+        "resolver": null,
+        "receipt": null
+      },
+      {
+        "id": 5,
+        "status": "ACTIVE",
+        "type": "LODGING",
+        "submitDate": 1656824217197,
+        "amount": 3025,
+        "description": "THIS IS A REALLY LONG DESCRIPTION THAT SHOULD BE SHORTENED",
+        "lastModified": 1656824217197,
+        "resolver": null,
+        "receipt": null
+      }
+    ],
+    "username": "manager"
+  };
+  const reimbursements = user.reimbursements;
+  return reimbursements;
+}
+
+
+const drawReimbursements = (reimbursements) => {
+  const table = document.getElementById('reimbursements-table');
+  const header = document.createElement('thead');
+  header.appendChild(document.createElement('th')).innerText = 'Id';
+  header.appendChild(document.createElement('th')).innerText = 'Status';
+  header.appendChild(document.createElement('th')).innerText = 'Type';
+  header.appendChild(document.createElement('th')).innerText = 'Amount';
+  header.appendChild(document.createElement('th')).innerText = 'Description';
+
+  table.appendChild(header);
+  const body = table.appendChild(document.createElement('tbody'));
+
+  fetchUsersReimbursements().forEach(reimbursement => {
+    const row = document.createElement('tr');
+    const id = document.createElement('td');
+    id.innerText = reimbursement.id;
+    const status = document.createElement('td');
+    status.innerText = reimbursement.status;
+    const type = document.createElement('td');
+    type.innerText = reimbursement.type;
+    const amount = document.createElement('td');
+    amount.innerText = `$${reimbursement.amount/100}`;
+    const description = document.createElement('td');
+    description.innerText = reimbursement.description;
+
+    row.appendChild(id);
+    row.appendChild(status);
+    row.appendChild(type);
+    row.appendChild(amount);
+    row.appendChild(description);
+    body.appendChild(row);
+  })
+
+
+  fetchUsersReimbursements().forEach(reimbursement => {});
+
 }
 
 document.getElementById('new-reimbursement-modal-close').addEventListener('click', newReimbursementModalCloseHandler);
 document.getElementById('new-reimbursement-modal-open').addEventListener('click', newReimbursementModalOpenHandler);
+drawReimbursements();

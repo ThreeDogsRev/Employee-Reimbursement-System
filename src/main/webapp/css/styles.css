@@ -113,13 +113,3 @@ input.currency {
   border-radius: 10px 10px 0 0;
   text-align: center;
 }
-
-.pending-reimbursements {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  min-height: 10rem;
-  border-radius: 5px;
-}
