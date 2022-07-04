@@ -17,39 +17,41 @@ import com.revature.service.EmployeeService;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
-  EmployeeService employeeService = new EmployeeService(new EmployeeDao());
 
-  @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    response.setContentType("application/json");
-    response.addHeader("Access-Control-Allow-Origin", "*");
+    private static final long serialVersionUID = 1L;
+    EmployeeService employeeService = new EmployeeService(new EmployeeDao());
 
-    String username = request.getParameter("username");
-    String password = request.getParameter("password");
-    Employee user = null;
-    String message = "";
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.addHeader("Access-Control-Allow-Origin", "*");
 
-    try {
-      user = employeeService.confirmLogin(username, password);
-      System.out.println(user.getUsername() + " logged in successfully");
-      request.getSession().setAttribute("user", user);
-    } catch (UserNotFoundException e) {
-      message = "User not found";
-    } catch (PasswordInvalidException e) {
-      message = "Password is invalid";
-    } catch (Exception e) {
-      message = "Something went wrong";
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        Employee user = null;
+        String message = "";
+
+        try {
+            user = this.employeeService.confirmLogin(username, password);
+            System.out.println(user.getUsername() + " logged in successfully");
+            request.getSession().setAttribute("user", user);
+        } catch (UserNotFoundException e) {
+            message = "User not found";
+        } catch (PasswordInvalidException e) {
+            message = "Password is invalid";
+        } catch (Exception e) {
+            message = "Something went wrong";
+        }
+        if (user != null) {
+            try {
+                response.sendRedirect("/employee-reimbursement-system");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            response.getWriter().write(new ObjectMapper().writeValueAsString(message));
+        }
     }
-    if(user != null) {
-      try {
-        response.sendRedirect("/employee-reimbursement-system");
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    } else {
-      response.getWriter().write(new ObjectMapper().writeValueAsString(message));
-    }
-  }
 
 }
