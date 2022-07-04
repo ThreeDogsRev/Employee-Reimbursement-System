@@ -10,117 +10,121 @@ import com.revature.utils.SessionHelper;
 
 public interface IDao<T> {
 
-
-  // Create
-  /**
-   * 
-   * @param entity, the item to insert into the database
-   * @return the item that was inserted into the DB
-   */
-  default T insert(T entity) {
-    Session session = null;
-    try {
-      session = SessionHelper.getSession();
-      session.beginTransaction();
-      Integer id = (Integer) session.save(entity);
-      session.getTransaction().commit();
-      return (T) session.get(entity.getClass(), id);
-    } catch (HibernateException e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        if (session != null)
-          session.close();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+    // Create
+    /**
+     *
+     * @param entity, the item to insert into the database
+     * @return the item that was inserted into the DB
+     */
+    default T insert(T entity) {
+        Session session = null;
+        try {
+            session = SessionHelper.getSession();
+            session.beginTransaction();
+            Integer id = (Integer) session.save(entity);
+            session.getTransaction().commit();
+            return (T) session.get(entity.getClass(), id);
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
-    return null;
-  }
 
-  default void persist(T entity) {
-    Session session = null;
-    try {
-      session = SessionHelper.getSession();
-      session.beginTransaction();
-      session.persist(entity);
-      session.getTransaction().commit();
-    } catch (HibernateException e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        if (session != null)
-          session.close();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+    default void persist(T entity) {
+        Session session = null;
+        try {
+            session = SessionHelper.getSession();
+            session.beginTransaction();
+            session.persist(entity);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
-  }
 
-  // Read
-  /**
-   * @return a list of all items in the DB
-   */
-  List<T> selectAll();
+    // Read
+    /**
+     * @return a list of all items in the DB
+     */
+    List<T> selectAll();
 
-  /**
-   * @param id, the id of the item to select
-   * @return the item with the id that was passed in
-   */
-  T selectById(int id) throws SQLException;
+    /**
+     * @param id, the id of the item to select
+     * @return the item with the id that was passed in
+     */
+    T selectById(int id) throws SQLException;
 
-  // Update
+    // Update
 
-  /**
-   * @param entity, the item to update in the DB
-   * @return the item that was updated in the DB
-   */
-  default T update(T entity) {
-    Session session = null;
-    try {
-      session = SessionHelper.getSession();
-      session.beginTransaction();
-      entity = (T) session.merge(entity);
-      session.getTransaction().commit();
-      return entity;
-    } catch (HibernateException e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        if (session != null)
-          session.close();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+    /**
+     * @param entity, the item to update in the DB
+     * @return the item that was updated in the DB
+     */
+    default T update(T entity) {
+        Session session = null;
+        try {
+            session = SessionHelper.getSession();
+            session.beginTransaction();
+            entity = (T) session.merge(entity);
+            session.getTransaction().commit();
+            return entity;
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
-    return null;
-  }
 
-  // Delete
-  /**
-   * @param entity, the item to delete from the DB
-   * @return the item that was deleted from the DB
-   */
-  default T delete(T entity) {
-    Session session = null;
-    try {
-      session = SessionHelper.getSession();
-      session.beginTransaction();
-      session.delete(entity);
-      session.getTransaction().commit();
-      return entity;
-    } catch (HibernateException e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        if (session != null)
-          session.close();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+    // Delete
+    /**
+     * @param entity, the item to delete from the DB
+     * @return the item that was deleted from the DB
+     */
+    default T delete(T entity) {
+        Session session = null;
+        try {
+            session = SessionHelper.getSession();
+            session.beginTransaction();
+            session.delete(entity);
+            session.getTransaction().commit();
+            return entity;
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
-    return null;
-  }
 
-  T selectByUsername(String userName);
+    T selectByUsername(String userName);
+
 }
