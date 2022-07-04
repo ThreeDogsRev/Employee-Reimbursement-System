@@ -44,46 +44,51 @@
       </div>
     </div>
 
-    <div id="dashboard" class="">
-      <header style="display: flex">
-        <button id="logout-button">Logout</button>
-        <button id="user-settings-button">Settings</button>
-      </header>
-      <h1 id="welcome-message">Welcome Employee</h1>
-
-      <div id='reimbursements-container' class="container">
-        <div id='reimbursements-card' class="card-header">
-          <h3>Active Reimbursements</h3>
-          <table id="reimbursements-table" class="table table-bordered"></table>
+    <div id="dashboard">
+      <header class="navbar">
+        <h1 class="navbar-brand">ThreeDogs Employment Co.</h1>
+        <div id="user-actions" class="d-flex">
+          <button id="user-settings-button" class="btn btn-outline-secondary me-2">Settings</button>
+          <button id="logout-button" class="btn btn-outline-danger">Logout</button>
         </div>
-        <div class="card-body" id="new-reimbursement-button">
-          <button id="new-reimbursement-modal-open">
+      </header>
+      <h1 id="welcome-message" class="text-center my-3">Welcome Employee</h1>
+
+      <div id="reimbursements-container" class="card shadow-lg">
+        <div class="card-header">
+          <h3 class="text-center mb-0">Your reimbursements</h3>
+        </div>
+        <div class="card-body table-responsive px-0" id="reimbursements-card">
+        </div>
+        <div class="card-footer" id="new-reimbursement-button">
+          <button id="new-reimbursement-modal-open" class="btn btn-primary w-100">
             Create a new request
           </button>
         </div>
       </div>
     </div>
+  </div>
 
-    <div id='admin-dashboard' class="">
-      <div id='admin-card' class="card-header">
-        <h3>Admin dashboard</h3>
-        <table id="manager-table" class="table table-bordered"></table>
-      </div>
+  <div id='admin-dashboard' class="">
+    <div id='admin-card' class="card-header">
+      <h3>Admin dashboard</h3>
+      <table id="manager-table" class="table table-bordered"></table>
     </div>
+  </div>
 
-    <div id="new-reimbursement-modal" class="modal">
-      <button id="new-reimbursement-modal-close" class="close">X</button>
-      <h1 class="title">Submit a new Reimbursement</h1>
-      <div id="reimbursement-form" class="content"></div>
-    </div>
+  <div id="new-reimbursement-modal" class="modal">
+    <button id="new-reimbursement-modal-close" class="close">X</button>
+    <h1 class="title">Submit a new Reimbursement</h1>
+    <div id="reimbursement-form" class="content"></div>
+  </div>
 
-    <div id="user-settings-modal" class="modal">
-      <div class="content">
-        <button id="user-settings-modal-close" class="close">X</button>
-        <h1 class="text-center">Employee Information</h1>
-        <div id="user-settings-form-container"></div>
-      </div>
+  <div id="user-settings-modal" class="modal">
+    <div class="content">
+      <button id="user-settings-modal-close" class="close">X</button>
+      <h1 class="text-center">Employee Information</h1>
+      <div id="user-settings-form-container"></div>
     </div>
+  </div>
 
   </div>
 </body>

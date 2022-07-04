@@ -3,10 +3,6 @@ body {
   padding: 70px;
 }
 
-.card {
-  background-color: rgba(237, 237, 151, 0.944);
-}
-
 form {
   margin: 0 auto;
 }
@@ -128,4 +124,8 @@ input.currency {
 #admin-dashboard.loading {
   display: block;
   animation: fade-slide-in 0.3s ease-out forwards;
+}
+
+th {
+  padding: 0.5rem;
 }

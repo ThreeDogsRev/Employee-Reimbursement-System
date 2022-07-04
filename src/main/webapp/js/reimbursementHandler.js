@@ -159,9 +159,9 @@ const fetchUsersReimbursements = () => {
 const drawReimbursements = (reimbursements) => {
   const table = document.createElement("table");
   table.setAttribute("id", "reimbursements-table");
-  table.setAttribute("class", "table table-striped");
+  table.setAttribute("class", "table table-striped table-borderless");
 
-  if(!reimbursements) {
+  if (!reimbursements) {
     const no_reimbursements = document.createElement("div");
     no_reimbursements.setAttribute("class", "no-reimbursements");
     no_reimbursements.innerText = "No reimbursements found create one!";
@@ -213,7 +213,7 @@ const drawLoading = () => {
 }
 
 
-drawLoading();
+// drawLoading();
 
 document
   .getElementById("new-reimbursement-modal-close")
