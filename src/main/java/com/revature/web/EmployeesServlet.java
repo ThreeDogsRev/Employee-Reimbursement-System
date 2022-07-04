@@ -40,27 +40,28 @@ public class EmployeesServlet extends HttpServlet {
         if (query != null) {
             String[] queryParams = query.split("&");
             for (String param : queryParams) {
+                Employee emp = null;
                 String[] keyValue = param.split("=");
-                if (keyValue[0].equals("id")) {
-                    Employee emp = null;
-                    try {
-                        emp = es.getEmployee(Integer.parseInt(keyValue[1]));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    if (emp != null) {
-                        employees.add(emp);
-                    }
-                } else if (keyValue[0].equals("name")) {
-                    Employee emp = null;
-                    try {
-                        emp = es.getEmployee(keyValue[1]);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    if (emp != null) {
-                        employees.add(emp);
-                    }
+                switch (keyValue[0]) {
+                    case "id":
+                        try {
+                            emp = es.getEmployee(Integer.parseInt(keyValue[1]));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "name":
+                        try {
+                            emp = es.getEmployee(keyValue[1]);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                if (emp != null) {
+                    employees.add(emp);
                 }
             }
         } else {
@@ -78,6 +79,7 @@ public class EmployeesServlet extends HttpServlet {
         String json = om.writeValueAsString(employees);
         PrintWriter out = resp.getWriter();
         out.write(json);
+        out.close();
     }
 
 }
