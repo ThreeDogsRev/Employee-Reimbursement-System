@@ -5,36 +5,35 @@ body {
 
 .card {
   background-color: rgba(237, 237, 151, 0.944);
-  padding: 1%;
-}
-
-form,
-label {
-  margin: 10px;
 }
 
 form {
-  margin: 20px auto;
-  width: 420px;
+  margin: 0 auto;
 }
+
 .form-row {
   padding: 5px 10px;
 }
+
 label {
   display: block;
   margin: 3px 0;
 }
+
 .form-row input {
   padding: 3px 1px;
   width: 100%;
 }
+
 input.currency {
   text-align: right;
   padding-right: 15px;
 }
+
 .input-group .form-control {
   float: none;
 }
+
 .input-group .input-buttons {
   position: relative;
   z-index: 3;
@@ -52,7 +51,7 @@ input.currency {
   pointer-events: none;
 }
 
-#modal-backdrop.active{
+#modal-backdrop.active {
   display: block;
   pointer-events: all;
 }
@@ -91,7 +90,7 @@ input.currency {
   animation: fade-slide-in 0.3s ease-out forwards;
 }
 
-.modal .content{
+.modal .content {
   padding: 10px;
 }
 
@@ -104,7 +103,7 @@ input.currency {
   border-radius: 10px;
 }
 
-.modal .title{
+.modal .title {
   margin: 0;
   padding: 1rem;
   border-bottom: 1px solid #00329e;
@@ -130,4 +129,3 @@ input.currency {
   display: block;
   animation: fade-slide-in 0.3s ease-out forwards;
 }
-
