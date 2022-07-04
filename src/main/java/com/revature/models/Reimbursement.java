@@ -5,25 +5,11 @@ import java.sql.Blob;
 import java.util.Date;
 import java.util.Objects;
 
-import javax.persistence.Column;
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -33,199 +19,195 @@ import jakarta.validation.constraints.NotNull;
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Entity(name = "Reimbursement")
 @Table(name = "reimbursement")
-public class Reimbursement implements Serializable{
+public class Reimbursement implements Serializable {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", columnDefinition = "ers.reimbursement_status")
+    @Type(type = "pgsql_enum")
+    private ReimbursementStatus status;
 
-  @Enumerated(EnumType.STRING)
-  @Column(name = "status", columnDefinition = "ers.reimbursement_status")
-  @Type(type = "pgsql_enum")
-  private ReimbursementStatus status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", columnDefinition = "ers.reimbursement_type")
+    @Type(type = "pgsql_enum")
+    private ReimbursementType type;
 
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "submit_date", nullable = false)
+    private Date submitDate;
 
-  @Enumerated(EnumType.STRING)
-  @Column(name = "type", columnDefinition = "ers.reimbursement_type")
-  @Type(type = "pgsql_enum")
-  private ReimbursementType type;
+    /*
+     * Stores the amount of the reimbursement denominated in cents
+     */
+    @NotNull
+    @Min(value = 0)
+    private Long amount;
 
+    @Column(nullable = false, length = 250)
+    private String description;
 
-  @CreationTimestamp
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "submit_date", nullable = false)
-  private Date submitDate;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "author_id")
+    private Employee author;
 
-  /*
-   * Stores the amount of the reimbursement denominated in cents
-   */
-  @NotNull
-  @Min(value = 0)
-  private Long amount;
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "modify_date")
+    private Date lastModified;
 
+    @JsonBackReference
+    @OneToOne(fetch = FetchType.EAGER)
+    private Employee resolver;
 
-  @Column(nullable = false, length = 250)
-  private String description;
+    private Blob receipt;
 
-  @JsonBackReference 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "author_id")
-  private Employee author;
+    public Reimbursement() {}
 
-
-  @UpdateTimestamp
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "modify_date")
-  private Date lastModified;
-
-  @JsonBackReference 
-  @OneToOne(fetch = FetchType.EAGER)
-  private Employee resolver;
-
-
-  private Blob receipt;
-
-  public Reimbursement() {}
-
-  public Reimbursement(int id, Date submitDate, Long amount, String description, ReimbursementStatus status,
-      ReimbursementType type, Employee author, Date lastModified, Employee resolver, Blob receipt) {
-    this.id = id;
-    this.submitDate = submitDate;
-    this.amount = amount;
-    this.description = description;
-    this.status = status;
-    this.type = type;
-    this.author = author;
-    this.lastModified = lastModified;
-    this.resolver = resolver;
-    this.receipt = receipt;
-  }
-
-  public Reimbursement(Reimbursement r){
-    this.id = r.id;
-    this.submitDate = r.submitDate;
-    this.amount = r.amount;
-    this.description = r.description;
-    this.status = r.status;
-    this.type = r.type;
-    this.author = r.author;
-    this.lastModified = r.lastModified;
-    this.resolver = r.resolver;
-    this.receipt = r.receipt;
-  }
-
-  public Reimbursement(Long amount, ReimbursementType type, String description) {
-    this.amount = amount;
-    this.type = type;
-    this.description = description;
-    this.status = ReimbursementStatus.PENDING;
-  }
-  
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public ReimbursementStatus getStatus() {
-    return status;
-  }
-
-  public void setStatus(ReimbursementStatus status) {
-    this.status = status;
-  }
-
-  public ReimbursementType getType() {
-    return type;
-  }
-
-  public void setType(ReimbursementType type) {
-    this.type = type;
-  }
-
-  public Date getSubmitDate() {
-    return submitDate;
-  }
-
-  public void setSubmitDate(Date submitDate) {
-    this.submitDate = submitDate;
-  }
-
-  public Long getAmount() {
-    return amount;
-  }
-
-  public void setAmount(Long amount) {
-    this.amount = amount;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  @ManyToOne
-  public Employee getAuthor() {
-    return author;
-  }
-
-  public void setAuthor(Employee author) {
-    this.author = author;
-  }
-
-  public Date getLastModified() {
-    return lastModified;
-  }
-
-  public void setLastModified(Date lastModified) {
-    this.lastModified = lastModified;
-  }
-
-  public Employee getResolver() {
-    return resolver;
-  }
-
-  public void setResolver(Employee resolver) {
-    this.resolver = resolver;
-  }
-
-  public Blob getReceipt() {
-    return receipt;
-  }
-
-  public void setReceipt(Blob receipt) {
-    this.receipt = receipt;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(this.amount, this.author, this.id, this.submitDate);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
+    public Reimbursement(int id, Date submitDate, Long amount, String description, ReimbursementStatus status,
+            ReimbursementType type, Employee author, Date lastModified, Employee resolver, Blob receipt) {
+        this.id = id;
+        this.submitDate = submitDate;
+        this.amount = amount;
+        this.description = description;
+        this.status = status;
+        this.type = type;
+        this.author = author;
+        this.lastModified = lastModified;
+        this.resolver = resolver;
+        this.receipt = receipt;
     }
-    if (obj == null || getClass() != obj.getClass()) {
-      return false;
-    }
-    Reimbursement other = (Reimbursement) obj;
-    return Double.doubleToLongBits(this.amount) == Double.doubleToLongBits(other.amount) && this.author == other.author
-        && this.id == other.id && Objects.equals(this.submitDate, other.submitDate);
-  }
 
-  @Override
-  public String toString() {
-    return "Reimbursement [id=" + this.id + ", submitDate=" + this.submitDate + ", amount=" + this.amount
-        + ", description=" + this.description + ", status=" + this.status + ", authorId=" + this.author.getId()
-        + ", resolveDate=" + this.lastModified + ", resolverId=" + this.lastModified + "]";
-  }
+    public Reimbursement(Reimbursement r) {
+        this.id = r.id;
+        this.submitDate = r.submitDate;
+        this.amount = r.amount;
+        this.description = r.description;
+        this.status = r.status;
+        this.type = r.type;
+        this.author = r.author;
+        this.lastModified = r.lastModified;
+        this.resolver = r.resolver;
+        this.receipt = r.receipt;
+    }
+
+    public Reimbursement(Long amount, ReimbursementType type, String description) {
+        this.amount = amount;
+        this.type = type;
+        this.description = description;
+        this.status = ReimbursementStatus.PENDING;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ReimbursementStatus getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(ReimbursementStatus status) {
+        this.status = status;
+    }
+
+    public ReimbursementType getType() {
+        return this.type;
+    }
+
+    public void setType(ReimbursementType type) {
+        this.type = type;
+    }
+
+    public Date getSubmitDate() {
+        return this.submitDate;
+    }
+
+    public void setSubmitDate(Date submitDate) {
+        this.submitDate = submitDate;
+    }
+
+    public Long getAmount() {
+        return this.amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @ManyToOne
+    public Employee getAuthor() {
+        return this.author;
+    }
+
+    public void setAuthor(Employee author) {
+        this.author = author;
+    }
+
+    public Date getLastModified() {
+        return this.lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public Employee getResolver() {
+        return this.resolver;
+    }
+
+    public void setResolver(Employee resolver) {
+        this.resolver = resolver;
+    }
+
+    public Blob getReceipt() {
+        return this.receipt;
+    }
+
+    public void setReceipt(Blob receipt) {
+        this.receipt = receipt;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.amount, this.author, this.id, this.submitDate);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Reimbursement other = (Reimbursement) obj;
+        return Double.doubleToLongBits(this.amount) == Double.doubleToLongBits(other.amount)
+                && this.author == other.author && this.id == other.id
+                && Objects.equals(this.submitDate, other.submitDate);
+    }
+
+    @Override
+    public String toString() {
+        return "Reimbursement [id=" + this.id + ", submitDate=" + this.submitDate + ", amount=" + this.amount
+                + ", description=" + this.description + ", status=" + this.status + ", authorId=" + this.author.getId()
+                + ", resolveDate=" + this.lastModified + ", resolverId=" + this.lastModified + "]";
+    }
+
 }
