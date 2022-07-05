@@ -11,46 +11,49 @@ import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 
 /**
- * This is the Hibernate Helper class
- * which is to handle startup and access Hibernate's
- * Session Factory to obtain a Session Object (connection to the DB).
+ * This is the Hibernate Helper class, whose job is to handle startup and access
+ * Hibernate's Session Factory to obtain a Session Object (connection to the
+ * DB).
  */
 public class SessionHelper {
-	private static SessionFactory sessionFactory = null;
 
-	static {
-		try {
-			loadSessionFactory();
-		} catch (Exception e) {
-			System.err.println("Exception while initializing hibernate util.. ");
-			e.printStackTrace();
-		}
-	}
+    private static SessionFactory sessionFactory = null;
 
-	public static void loadSessionFactory() {
+    static {
+        try {
+            loadSessionFactory();
+        } catch (Exception e) {
+            System.err.println("Exception while initializing hibernate util");
+            e.printStackTrace();
+        }
+    }
 
-		Configuration configuration = new Configuration();
-		configuration.configure("hibernate.cfg.xml");
-		configuration.addAnnotatedClass(Employee.class);
-		configuration.addAnnotatedClass(Reimbursement.class);
-		configuration.setProperty("hibernate.temp.use_jdbc_metadata_defaults","false");
-		ServiceRegistry srvcReg = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-		sessionFactory = configuration.buildSessionFactory(srvcReg);
-	}
+    public static void loadSessionFactory() {
 
-	public static Session getSession() throws HibernateException {
+        Configuration configuration = new Configuration();
+        configuration.configure("hibernate.cfg.xml");
+        configuration.addAnnotatedClass(Employee.class);
+        configuration.addAnnotatedClass(Reimbursement.class);
+        configuration.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
+        ServiceRegistry srvcReg = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties())
+            .build();
+        sessionFactory = configuration.buildSessionFactory(srvcReg);
+    }
 
-		Session retSession = null;
-		try {
-			retSession = sessionFactory.openSession();
-		} catch (Throwable t) {
-			System.err.println("Exception while getting session.. ");
-			t.printStackTrace();
-		}
-		if (retSession == null) {
-			System.err.println("session is discovered null");
-		}
+    public static Session getSession() throws HibernateException {
 
-		return retSession;
-	}
+        Session retSession = null;
+        try {
+            retSession = sessionFactory.openSession();
+        } catch (Exception t) {
+            System.err.println("Exception while getting session.. ");
+            t.printStackTrace();
+        }
+        if (retSession == null) {
+            System.err.println("Session is discovered null");
+        }
+
+        return retSession;
+    }
+
 }

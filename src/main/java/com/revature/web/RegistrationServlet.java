@@ -17,57 +17,51 @@ import com.revature.utils.FormInputValidator;
 
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static EmployeeService es = new EmployeeService(new EmployeeDao());
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private static final long serialVersionUID = 1L;
+    private static EmployeeService es = new EmployeeService(new EmployeeDao());
 
-		// 1. extract all values from the parameters
-		String firstname = req.getParameter("firstname").toLowerCase();
-		String lastname = req.getParameter("lastname").toLowerCase();
-		String username = req.getParameter("username");
-		String email = req.getParameter("email").toLowerCase();
-		String password = req.getParameter("password");
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		System.out.println("RegistrationServlet.doPost()");
-		System.out.println("firstname: <" + firstname + ">");
-		System.out.println("lastname: <" + lastname + ">");
-		System.out.println("username: <" + username + ">");
-		System.out.println("email: <" + email + ">");
-		System.out.println("password: <" + password + ">");
+        // 1. extract all values from the parameters
+        String firstname = req.getParameter("firstname").toLowerCase();
+        String lastname = req.getParameter("lastname").toLowerCase();
+        String username = req.getParameter("username");
+        String email = req.getParameter("email").toLowerCase();
+        String password = req.getParameter("password");
 
-		if (!FormInputValidator.checkName(firstname) ||
-				!FormInputValidator.checkName(lastname) ||
-				!FormInputValidator.checkUsername(username) ||
-				!FormInputValidator.checkEmail(email) ||
-				!FormInputValidator.checkPassword(password)) {
-			PrintWriter out = resp.getWriter();
-			resp.setContentType("text/html");
-			out.println("<h1>Registration failed.  One or more fields missing</h1>");
-			out.println("<a href=\"registration.html\">Back</a>");
-			return;
-		}
+        // TODO use logger instead of System.out to log new user registrations
 
-		// 2. construct a new employee object
-		Employee user = new Employee(firstname, lastname, username, password, email, EmployeeRole.EMPLOYEE);
+        if (!FormInputValidator.checkName(firstname) || !FormInputValidator.checkName(lastname)
+                || !FormInputValidator.checkUsername(username) || !FormInputValidator.checkEmail(email)
+                || !FormInputValidator.checkPassword(password)) {
+            PrintWriter out = resp.getWriter();
+            resp.setContentType("text/html");
+            out.println("<h1>Registration failed.  One or more fields missing</h1>");
+            out.println("<a href=\"registration.html\">Back</a>");
+            return;
+        }
 
-		// 3. call the register() method from the service layer
-		user = es.register(user);
-		System.out.println("user: " + user);
+        // 2. construct a new employee object
+        Employee user = new Employee(firstname, lastname, username, password, email, EmployeeRole.EMPLOYEE);
 
-		// 4. check it's ID...if it's > 0 it's successfull
-		if (user != null) {
+        // 3. call the register() method from the service layer
+        user = es.register(user);
 
-			// add the user to the session
-			req.getSession().setAttribute("user", user);
-			resp.sendRedirect("/employee-reimbursement-system");
+        // 4. check it's ID...if it's > 0 it's successfull
+        if (user != null) {
 
-		} else {
+            // add the user to the session
+            req.getSession().setAttribute("user", user);
+            resp.sendRedirect("/employee-reimbursement-system");
 
-			PrintWriter out = resp.getWriter();
-			resp.setContentType("text/json");
-			out.println("{\"message\":\"Registration failed.  Username already exists\"}");
-		}
-	}
+        } else {
+
+            PrintWriter out = resp.getWriter();
+            resp.setContentType("text/json");
+            out.println("{\"message\":\"Registration failed.  Username already exists\"}");
+        }
+    }
+
 }

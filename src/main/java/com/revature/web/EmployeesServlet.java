@@ -21,63 +21,65 @@ import com.revature.service.EmployeeService;
 @WebServlet("/employees")
 public class EmployeesServlet extends HttpServlet {
 
-  private static EmployeeService es = new EmployeeService(new EmployeeDao());
-  private static ObjectMapper om = new ObjectMapper();
+    private static EmployeeService es = new EmployeeService(new EmployeeDao());
+    private static ObjectMapper om = new ObjectMapper();
 
-  public EmployeesServlet() {
-    super();
-    om.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
-    om.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
-  }
+    public EmployeesServlet() {
+        om.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+        om.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
+    }
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    // Todo: Check if a user is logged in and has permissions to view this page
-    List<Employee> employees = new ArrayList<>();
-    resp.setContentType("application/json");
-    resp.addHeader("Access-Control-Allow-Origin", "*");
-    
-    String query = req.getQueryString();
-    if (query != null) {
-      String[] queryParams = query.split("&");
-      for (String param : queryParams) {
-        String[] keyValue = param.split("=");
-        if (keyValue[0].equals("id")) {
-          Employee emp = null;
-          try {
-            emp = es.getEmployee(Integer.parseInt(keyValue[1]));
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-          if (emp != null) {
-            employees.add(emp);
-          }
-        } else if (keyValue[0].equals("name")) {
-          Employee emp = null;
-          try {
-            emp = es.getEmployee(keyValue[1]);
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-          if (emp != null) {
-            employees.add(emp);
-          }
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Todo: Check if a user is logged in and has permissions to view this page
+        List<Employee> employees = new ArrayList<>();
+        resp.setContentType("application/json");
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+
+        String query = req.getQueryString();
+        if (query != null) {
+            String[] queryParams = query.split("&");
+            for (String param : queryParams) {
+                Employee emp = null;
+                String[] keyValue = param.split("=");
+                switch (keyValue[0]) {
+                    case "id":
+                        try {
+                            emp = es.getEmployee(Integer.parseInt(keyValue[1]));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "name":
+                        try {
+                            emp = es.getEmployee(keyValue[1]);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                if (emp != null) {
+                    employees.add(emp);
+                }
+            }
+        } else {
+            employees = es.getEmployees();
         }
-      }
-    } else {
-      employees = es.getEmployees();
+
+        // NUll the employees author information because it causes an infinate
+        // relationship loop
+        for (Employee emp : employees) {
+            for (Reimbursement r : emp.getReimbursements()) {
+                r.setAuthor(null);
+            }
+        }
+
+        String json = om.writeValueAsString(employees);
+        PrintWriter out = resp.getWriter();
+        out.write(json);
+        out.close();
     }
 
-    // NUll the employees author information because it causes an infinate relationship loop
-    for(Employee emp : employees) {
-      for(Reimbursement r : emp.getReimbursements()) {
-        r.setAuthor(null);
-      }
-    }
-
-
-    String json = om.writeValueAsString(employees);
-    PrintWriter out = resp.getWriter();
-    out.write(json);
-  }
 }

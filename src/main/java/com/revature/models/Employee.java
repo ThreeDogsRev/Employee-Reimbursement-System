@@ -4,17 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -28,8 +18,8 @@ import jakarta.validation.constraints.Size;
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @Entity(name = "Employee")
 @Table(name = "employee")
-@JsonIgnoreProperties(value = {"password"})
-public class Employee implements Serializable{
+@JsonIgnoreProperties(value = { "password" })
+public class Employee implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,9 +51,9 @@ public class Employee implements Serializable{
     @Type(type = "pgsql_enum")
     private EmployeeRole employeeRole;
 
-    @JsonManagedReference 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "author")
-    private List<Reimbursement> reimbursements = new ArrayList<Reimbursement>();
+    private List<Reimbursement> reimbursements = new ArrayList<>();
 
     public Employee(Employee employee) {
         this.id = employee.id;
@@ -75,10 +65,9 @@ public class Employee implements Serializable{
         this.employeeRole = employee.employeeRole;
         this.reimbursements = employee.reimbursements;
     }
-    
+
     public Employee(int id, String fristName, String lastName, String userName, String password, String email,
             EmployeeRole employeeRole) {
-        super();
         this.id = id;
         this.firstName = fristName;
         this.lastName = lastName;
@@ -90,7 +79,6 @@ public class Employee implements Serializable{
 
     public Employee(String fristName, String lastName, String userName, String password, String email,
             EmployeeRole employeeRole) {
-        super();
         this.firstName = fristName;
         this.lastName = lastName;
         this.userName = userName;
@@ -99,13 +87,10 @@ public class Employee implements Serializable{
         this.employeeRole = employeeRole;
     }
 
-
-    public Employee() {
-        super();
-    }
+    public Employee() {}
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -113,7 +98,7 @@ public class Employee implements Serializable{
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     public void setFirstName(String fristName) {
@@ -121,7 +106,7 @@ public class Employee implements Serializable{
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     public void setLastName(String lastName) {
@@ -129,7 +114,7 @@ public class Employee implements Serializable{
     }
 
     public String getUsername() {
-        return userName;
+        return this.userName;
     }
 
     public void setUsername(String userName) {
@@ -137,7 +122,7 @@ public class Employee implements Serializable{
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -145,7 +130,7 @@ public class Employee implements Serializable{
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -153,7 +138,7 @@ public class Employee implements Serializable{
     }
 
     public EmployeeRole getEmployeeRole() {
-        return employeeRole;
+        return this.employeeRole;
     }
 
     public void setEmployeeRole(EmployeeRole employeeRole) {
@@ -161,7 +146,7 @@ public class Employee implements Serializable{
     }
 
     public List<Reimbursement> getReimbursements() {
-        return reimbursements;
+        return this.reimbursements;
     }
 
     public void setReimbursements(List<Reimbursement> reimbursements) {
@@ -170,26 +155,29 @@ public class Employee implements Serializable{
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, firstName, id, lastName, password, userName, employeeRole);
+        return Objects.hash(this.email, this.firstName, this.id, this.lastName, this.password, this.userName,
+            this.employeeRole);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
-        if (getClass() != obj.getClass())
-            return false;
+        }
         Employee other = (Employee) obj;
-        return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName) && id == other.id
-                && Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
-                && Objects.equals(userName, other.userName) && employeeRole == other.employeeRole;
+        return Objects.equals(this.email, other.email) && Objects.equals(this.firstName, other.firstName)
+            && this.id == other.id && Objects.equals(this.lastName, other.lastName)
+            && Objects.equals(this.password, other.password) && Objects.equals(this.userName, other.userName)
+            && this.employeeRole == other.employeeRole;
     }
 
     @Override
     public String toString() {
-        return "Employee:" + id + " " + email + " " + employeeRole + " " + firstName + " " + lastName + " " + password + " "+ userName;
+        return "Employee:" + this.id + " " + this.email + " " + this.employeeRole + " " + this.firstName + " "
+                + this.lastName + " " + this.password + " " + this.userName;
     }
 
     public boolean addReimbursement(Reimbursement reimbursement) {
@@ -200,6 +188,5 @@ public class Employee implements Serializable{
     public void removeReimbursement(Reimbursement r) {
         this.reimbursements.remove(r);
     }
-
 
 }
