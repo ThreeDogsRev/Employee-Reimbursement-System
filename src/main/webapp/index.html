@@ -16,6 +16,7 @@
 
 <body>
   <div id="app" class="container">
+
     <div id="login-form">
       <div class="card shadow-lg">
 
@@ -25,7 +26,7 @@
         </div>
 
         <div class="card-body text-center">
-          <form method="POST" action="login" class="col-sm-9 col-md-6 col-lg-5 col-xl-4">
+          <form method="POST" action="login" class="col-sm-9 col-md-6 col-lg-5 col-xl-4 me-auto ms-auto">
             <label for="username" class="visually-hidden">Username</label>
             <input type="text" name="username" placeholder="Username" class="form-control mb-3" required>
 
@@ -50,9 +51,9 @@
       </header>
       <h1 id="welcome-message" class="text-center my-3">Welcome Employee</h1>
 
-      <div id="reimbursements-container" class="card shadow-lg">
+      <div id="reimbursements-container" class="card shadow-lg mb-3">
         <div class="card-header">
-          <h3 class="text-center mb-0">Your reimbursements</h3>
+          <h3>Your reimbursements</h3>
         </div>
         <div class="card-body table-responsive px-0" id="reimbursements-card">
         </div>
@@ -62,15 +63,17 @@
           </button>
         </div>
       </div>
+      <div id='admin-dashboard' class="card shadow-lg d-none mb-3">
+        <div id='admin-card' class="card-header">
+          <h3>Admin dashboard</h3>
+        </div>
+        <div id="admin-dashboard-body" class="card-body table-responsive px-0">
+        </div>
+      </div>
     </div>
+
   </div>
 
-  <div id='admin-dashboard' class="">
-    <div id='admin-card' class="card-header">
-      <h3>Admin dashboard</h3>
-      <table id="manager-table" class="table table-bordered"></table>
-    </div>
-  </div>
 
   <form method="POST" action="new-reimbursement" id="new-reimbursement-modal" class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
