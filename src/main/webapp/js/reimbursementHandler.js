@@ -1,22 +1,3 @@
-const newReimbursementModalOpenHandler = () => {
-  document
-    .getElementById("new-reimbursement-modal")
-    .toggleAttribute("class", "fade");
-  document.getElementById("modal-backdrop").setAttribute("class", "active");
-  document
-    .getElementById("modal-backdrop")
-    .addEventListener("click", newReimbursementModalCloseHandler);
-  generateForm();
-};
-
-const newReimbursementModalCloseHandler = () => {
-  document
-    .getElementById("new-reimbursement-modal")
-    .setAttribute("class", "modal");
-  document.getElementById("modal-backdrop").setAttribute("class", "");
-  document.getElementById("reimbursement-form").innerHTML = "";
-};
-
 const generateForm = () => {
   const form_container = document.getElementById("reimbursement-form");
 

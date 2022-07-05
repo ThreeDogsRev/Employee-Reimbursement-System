@@ -17,7 +17,7 @@ localStorage.setItem(
       lastModified: 1656824217197,
       resolver: null,
       receipt: null,
-    }, ],
+    },],
     username: "Default",
   })
 );
@@ -55,13 +55,13 @@ const approve_deny_button = (reimbursement) => {
       <div class="btn-group" role="group">
         <button class="btn btn-outline-success btn-sm" onclick="approve_reimbursement(${reimbursement.id})">${String.fromCodePoint(0x2714, 0xFE0F)}</button>
         <button class="btn btn-outline-danger btn-sm" onclick="deny_reimbursement(${reimbursement.id})">${String.fromCodePoint(0x274C)}</button>
-      </div>`
+      </div>`;
     return cell;
   }
 }
 
 const drawPendingReimbursements = (reimbursements) => {
-  const dashboardBody = document.getElementById("admin-dashboard-body")
+  const dashboardBody = document.getElementById("admin-dashboard-body");
   dashboardBody.innerHTML = "";
 
   if (reimbursements.length < 1) {
@@ -135,11 +135,11 @@ const initialize = () => {
     }).then(() => {
       document.getElementById("welcome-message").innerHTML =
         localStorage.getItem("user") ?
-        `Welcome, ${JSON.parse(
+          `Welcome, ${JSON.parse(
             localStorage.getItem("user")
           ).firstName[0].toUpperCase()}${JSON.parse(localStorage.getItem("user")).firstName.substring(1)
           }` :
-        "Welcome, Employee";
+          "Welcome, Employee";
     });
 };
 
