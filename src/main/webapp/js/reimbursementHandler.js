@@ -1,22 +1,3 @@
-const newReimbursementModalOpenHandler = () => {
-  document
-    .getElementById("new-reimbursement-modal")
-    .setAttribute("class", "modal active");
-  document.getElementById("modal-backdrop").setAttribute("class", "active");
-  document
-    .getElementById("modal-backdrop")
-    .addEventListener("click", newReimbursementModalCloseHandler);
-  generateForm();
-};
-
-const newReimbursementModalCloseHandler = () => {
-  document
-    .getElementById("new-reimbursement-modal")
-    .setAttribute("class", "modal");
-  document.getElementById("modal-backdrop").setAttribute("class", "");
-  document.getElementById("reimbursement-form").innerHTML = "";
-};
-
 const generateForm = () => {
   const form_container = document.getElementById("reimbursement-form");
 
@@ -38,13 +19,10 @@ const generateForm = () => {
 
     const input_group = document.createElement("div");
     input_group.setAttribute("class", "input-group");
-    const input_group_prepend = document.createElement("div");
-    input_group_prepend.setAttribute("class", "input-group-prepend");
     const input_group_text = document.createElement("div");
     input_group_text.setAttribute("class", "input-group-text");
     input_group_text.innerText = "$";
-    input_group_prepend.appendChild(input_group_text);
-    input_group.appendChild(input_group_prepend);
+    input_group.appendChild(input_group_text);
 
     const input = document.createElement("input");
     const input_attributes = {
@@ -80,7 +58,7 @@ const generateForm = () => {
 
     const input_attributes = {
       id: "reimbursement-form-type",
-      class: "form-control",
+      class: "form-select",
       name: "type",
       required: true,
     };
@@ -111,7 +89,7 @@ const generateForm = () => {
 
     const label = document.createElement("label");
     label.setAttribute("for", "type");
-    label.innerText = "Type";
+    label.innerText = "Description";
     form_row.appendChild(label);
 
     const input_attibutes = {
@@ -157,17 +135,20 @@ const fetchUsersReimbursements = () => {
 };
 
 const drawReimbursements = (reimbursements) => {
-  const table = document.createElement("table");
-  table.setAttribute("id", "reimbursements-table");
-  table.setAttribute("class", "table table-striped");
+  const cardBody = document.getElementById("reimbursements-card")
 
-  if(!reimbursements) {
+
+  if (reimbursements.length < 1) {
     const no_reimbursements = document.createElement("div");
-    no_reimbursements.setAttribute("class", "no-reimbursements");
-    no_reimbursements.innerText = "No reimbursements found create one!";
-    document.getElementById("reimbursements-card").appendChild(no_reimbursements);
+    no_reimbursements.setAttribute("class", "no-reimbursements text-center");
+    no_reimbursements.innerText = "No reimbursements found";
+    cardBody.appendChild(no_reimbursements);
     return;
   }
+
+  const table = document.createElement("table");
+  table.setAttribute("id", "reimbursements-table");
+  table.setAttribute("class", "table table-striped table-borderless");
 
   const header = document.createElement("thead");
   header.appendChild(document.createElement("th")).innerText = "Id";
@@ -181,14 +162,20 @@ const drawReimbursements = (reimbursements) => {
 
   reimbursements.forEach((reimbursement) => {
     const row = document.createElement("tr");
+
+    // FIXME: ID value of last element should not be 0
     const id = document.createElement("td");
     id.innerText = reimbursement.id;
+
     const status = document.createElement("td");
     status.innerText = reimbursement.status;
+
     const type = document.createElement("td");
     type.innerText = reimbursement.type;
+
     const amount = document.createElement("td");
     amount.innerText = `$${reimbursement.amount / 100}`;
+
     const description = document.createElement("td");
     description.innerText = reimbursement.description;
 
@@ -213,15 +200,7 @@ const drawLoading = () => {
 }
 
 
-drawLoading();
-
-document
-  .getElementById("new-reimbursement-modal-close")
-  .addEventListener("click", newReimbursementModalCloseHandler);
-
-document
-  .getElementById("new-reimbursement-modal-open")
-  .addEventListener("click", newReimbursementModalOpenHandler);
+// drawLoading();
 
 fetchUsersReimbursements().then((reimbursements) => {
   drawReimbursements(reimbursements);

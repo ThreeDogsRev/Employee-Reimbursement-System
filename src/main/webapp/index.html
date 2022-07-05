@@ -1,129 +1,167 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="ISO-8859-1" />
-    <title>Employee Servlet App</title>
 
-    <!-- Bootstrap CDN link-->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-      crossorigin="anonymous"
-    />
-    <link href="css/styles.css" rel="stylesheet" />
-    <script src="js/login.js" defer></script>
-    <script src="js/reimbursementHandler.js" defer></script>
-    <script src="js/userHandler.js" defer></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-      crossorigin="anonymous"
-    ></script>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>ThreeDogs Employee Reimbursement System</title>
 
-  <body>
-    <div id="app" class="container">
-      <div id="modal-backdrop" class="">
-        <p>Loading . . .</p>
-      </div>
+  <!-- Bootstrap CDN link-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
+  <link href="css/styles.css" rel="stylesheet" />
+  <script src="js/login.js" defer></script>
+  <script src="js/reimbursementHandler.js" defer></script>
+  <script src="js/userHandler.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</head>
 
-      <div id="login-form">
-        <div class="card">
-          <div class="shadow-lg">
-            <div class="card-header text-center">
-              <h1>Welcome Employee</h1>
-              <h3>Please login below:</h3>
-            </div>
+<body>
+  <div id="app" class="container">
 
-            <div class="card-body text-center">
-              <!--  POST requests obfuscate (hide) the parameters and dont' show it in the URL -->
-              <form method="POST" action="login">
-                <!-- http://localhost:8080/employee-servlet-app/login -->
+    <div id="login-form">
+      <div class="card shadow-lg">
 
-                <label>Username</label>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Enter a username"
-                />
-                <br />
+        <div class="card-header text-center">
+          <h1>Welcome Employee</h1>
+          <h3>Please login below:</h3>
+        </div>
 
-                <label>Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Enter a password"
-                />
+        <div class="card-body text-center">
+          <form method="POST" action="login" class="col-sm-9 col-md-6 col-lg-5 col-xl-4 me-auto ms-auto">
+            <label for="username" class="visually-hidden">Username</label>
+            <input type="text" name="username" placeholder="Username" class="form-control mb-3" required>
 
-                <input type="submit" value="Login!" />
-              </form>
+            <label for="password" class="visually-hidden">Password</label>
+            <input type="password" name="password" placeholder="Password" class="form-control mb-3" required>
 
-              <br />
+            <input type="submit" value="Log in" class="btn btn-primary">
+          </form>
 
-              <!--Whenever I want a button to submit sometype of HTTP request it has to be in a FORM -->
-              <form method="GET" action="registration.html">
-                <input type="submit" value="Register!" />
-              </form>
-
-              <!-- Later we'll put a form below which sends a GET request to view all the employees -->
-              <button id="all-emps">View All Employees</button>
-              <!-- ctrl + shift + v to preview-->
-
-              <table class="table table-striped"></table>
-            </div>
-          </div>
+          <a href="registration.html" class="btn btn-outline-primary mt-2">Register</a>
         </div>
       </div>
+    </div>
 
-      <div id="dashboard" class="">
-        <header style="display: flex">
-        <button id="logout-button">Logout</button>
-        <button id="user-settings-button">Settings</button>
-        </header>
-        <h1 id="welcome-message">Welcome Employee</h1>
+    <div id="dashboard">
+      <header class="navbar">
+        <h1 class="navbar-brand">ThreeDogs Employment Co.</h1>
+        <div id="user-actions" class="d-flex">
+          <button id="user-settings-button" class="btn btn-outline-secondary me-2">Settings</button>
+          <button id="logout-button" class="btn btn-outline-danger">Logout</button>
+        </div>
+      </header>
+      <h1 id="welcome-message" class="text-center my-3">Welcome Employee</h1>
 
-        <div id ='reimbursements-container' class="container">
-          <div id='reimbursements-card' class="card-header">
-            <h3>Active Reimbursements</h3>
-            <table
-              id="reimbursements-table"
-              class="table table-bordered"
-            ></table>
-          </div>
-          <div class="card-body" id="new-reimbursement-button">
-            <button id="new-reimbursement-modal-open">
-              Create a new request
-            </button>
-          </div>
+      <div id="reimbursements-container" class="card shadow-lg mb-3">
+        <div class="card-header">
+          <h3>Your reimbursements</h3>
+        </div>
+        <div class="card-body table-responsive px-0" id="reimbursements-card">
+        </div>
+        <div class="card-footer" id="new-reimbursement-button">
+          <button id="new-reimbursement-modal-open" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#new-reimbursement-modal" data-bs-backdrop="static">
+            Create a new request
+          </button>
         </div>
       </div>
-
-      <div id ='admin-dashboard' class="">
+      <div id='admin-dashboard' class="card shadow-lg d-none mb-3">
         <div id='admin-card' class="card-header">
           <h3>Admin dashboard</h3>
-          <table
-            id="manager-table"
-            class="table table-bordered"
-            ></table>
+        </div>
+        <div id="admin-dashboard-body" class="card-body table-responsive px-0">
         </div>
       </div>
-
-
-      <div id="new-reimbursement-modal" class="modal">
-        <button id="new-reimbursement-modal-close" class="close">X</button>
-        <h1 class="title">Submit a new Reimbursement</h1>
-        <div id="reimbursement-form" class="content"></div>
-      </div>
-
-      <div id="user-settings-modal" class="modal">
-        <div class="content">
-          <button id="user-settings-modal-close" class="close">X</button>
-          <h1 class="text-center">Employee Information</h1>
-          <div id="user-settings-form-container"></div>
-        </div>
-      </div>
-
     </div>
-  </body>
+
+  </div>
+
+
+  <form method="POST" action="new-reimbursement" id="new-reimbursement-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title w-100 text-center">Submit a new reimbursement</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row"><label for="amount">Amount</label>
+            <div class="input-group">
+              <div class="input-group-text">$</div>
+              <input id="reimbursement-form-amount" type="number" name="amount" value="0" min="0" max="9999999" step="0.01" data-number-to-currency-locale="en-US" data-number-to-currency-symbol="$" data-mumber-stepfactor="100" class="form-control currency" required="true">
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="type">Type</label>
+            <select id="reimbursement-form-type" class="form-select" name="type" required="true">
+              <option selected>Please select a type</option>
+              <option value="Food">Food</option>
+              <option value="Travel">Travel</option>
+              <option value="Lodging">Lodging</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="type">Description</label>
+            <textarea id="reimbursement-form-description" class="form-control" name="description" maxlength="255" required="true"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <form method="POST" action="me" id="user-settings-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title w-100 text-center">Employee information</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div id="user-settings-form-container" class="modal-body">
+          <div id="user-settings-form-container">
+            <div class="form-row">
+              <label for="Name">Name</label>
+              <div class="row g-2">
+                <div class="col-6">
+                  <input id="firstname" type="string" name="firstname" placeholder="First" value="" required class="form-control">
+                </div>
+                <div class="col-6">
+                  <input id="lastname" type="string" name="lastname" placeholder="Last" value="" required class="form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="username">Username</label>
+            <input id="username" type="string" name="username" value="" required class="form-control">
+          </div>
+          <div class="form-row">
+            <label for="email">Email</label>
+            <div class="input-group flex-nowrap">
+              <input id="email" type="email" name="email" value="" required class="form-control">
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="currentPassword">Current Password</label>
+            <div class="input-group flex-nowrap">
+              <input id="currentPassword" type="password" name="currentPassword" value="" required class="form-control">
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="password">New Password</label>
+            <div class="input-group flex-nowrap">
+              <input id="newPassword" type="password" name="newPassword" value="" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" id="submit">Save</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</body>
+
 </html>
