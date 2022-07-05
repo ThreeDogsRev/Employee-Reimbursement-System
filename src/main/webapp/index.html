@@ -16,10 +16,6 @@
 
 <body>
   <div id="app" class="container">
-    <div id="modal-backdrop">
-      <p>Loading…</p>
-    </div>
-
     <div id="login-form">
       <div class="card shadow-lg">
 
@@ -61,7 +57,7 @@
         <div class="card-body table-responsive px-0" id="reimbursements-card">
         </div>
         <div class="card-footer" id="new-reimbursement-button">
-          <button id="new-reimbursement-modal-open" class="btn btn-primary w-100">
+          <button id="new-reimbursement-modal-open" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#new-reimbursement-modal" data-bs-backdrop="static">
             Create a new request
           </button>
         </div>
@@ -76,21 +72,93 @@
     </div>
   </div>
 
-  <div id="new-reimbursement-modal" class="modal">
-    <button id="new-reimbursement-modal-close" class="close">X</button>
-    <h1 class="title">Submit a new Reimbursement</h1>
-    <div id="reimbursement-form" class="content"></div>
-  </div>
-
-  <div id="user-settings-modal" class="modal">
-    <div class="content">
-      <button id="user-settings-modal-close" class="close">X</button>
-      <h1 class="text-center">Employee Information</h1>
-      <div id="user-settings-form-container"></div>
+  <form method="POST" action="new-reimbursement" id="new-reimbursement-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title w-100 text-center">Submit a new reimbursement</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row"><label for="amount">Amount</label>
+            <div class="input-group">
+              <div class="input-group-text">$</div>
+              <input id="reimbursement-form-amount" type="number" name="amount" value="0" min="0" max="9999999" step="0.01" data-number-to-currency-locale="en-US" data-number-to-currency-symbol="$" data-mumber-stepfactor="100" class="form-control currency" required="true">
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="type">Type</label>
+            <select id="reimbursement-form-type" class="form-select" name="type" required="true">
+              <option selected>Please select a type</option>
+              <option value="Food">Food</option>
+              <option value="Travel">Travel</option>
+              <option value="Lodging">Lodging</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="type">Description</label>
+            <textarea id="reimbursement-form-description" class="form-control" name="description" maxlength="255" required="true"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
     </div>
-  </div>
+  </form>
 
-  </div>
+  <form method="POST" action="me" id="user-settings-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title w-100 text-center">Employee information</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div id="user-settings-form-container" class="modal-body">
+          <div id="user-settings-form-container">
+            <div class="form-row">
+              <label for="Name">Name</label>
+              <div class="row g-2">
+                <div class="col-6">
+                  <input id="firstname" type="string" name="firstname" placeholder="First" value="" required class="form-control">
+                </div>
+                <div class="col-6">
+                  <input id="lastname" type="string" name="lastname" placeholder="Last" value="" required class="form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="username">Username</label>
+            <input id="username" type="string" name="username" value="" required class="form-control">
+          </div>
+          <div class="form-row">
+            <label for="email">Email</label>
+            <div class="input-group flex-nowrap">
+              <input id="email" type="email" name="email" value="" required class="form-control">
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="currentPassword">Current Password</label>
+            <div class="input-group flex-nowrap">
+              <input id="currentPassword" type="password" name="currentPassword" value="" required class="form-control">
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="password">New Password</label>
+            <div class="input-group flex-nowrap">
+              <input id="newPassword" type="password" name="newPassword" value="" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" id="submit">Save</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
 </body>
 
 </html>

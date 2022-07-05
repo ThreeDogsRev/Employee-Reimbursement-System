@@ -1,7 +1,7 @@
 const newReimbursementModalOpenHandler = () => {
   document
     .getElementById("new-reimbursement-modal")
-    .setAttribute("class", "modal active");
+    .toggleAttribute("class", "fade");
   document.getElementById("modal-backdrop").setAttribute("class", "active");
   document
     .getElementById("modal-backdrop")
@@ -38,13 +38,10 @@ const generateForm = () => {
 
     const input_group = document.createElement("div");
     input_group.setAttribute("class", "input-group");
-    const input_group_prepend = document.createElement("div");
-    input_group_prepend.setAttribute("class", "input-group-prepend");
     const input_group_text = document.createElement("div");
     input_group_text.setAttribute("class", "input-group-text");
     input_group_text.innerText = "$";
-    input_group_prepend.appendChild(input_group_text);
-    input_group.appendChild(input_group_prepend);
+    input_group.appendChild(input_group_text);
 
     const input = document.createElement("input");
     const input_attributes = {
@@ -80,7 +77,7 @@ const generateForm = () => {
 
     const input_attributes = {
       id: "reimbursement-form-type",
-      class: "form-control",
+      class: "form-select",
       name: "type",
       required: true,
     };
@@ -111,7 +108,7 @@ const generateForm = () => {
 
     const label = document.createElement("label");
     label.setAttribute("for", "type");
-    label.innerText = "Type";
+    label.innerText = "Description";
     form_row.appendChild(label);
 
     const input_attibutes = {
@@ -214,14 +211,6 @@ const drawLoading = () => {
 
 
 // drawLoading();
-
-document
-  .getElementById("new-reimbursement-modal-close")
-  .addEventListener("click", newReimbursementModalCloseHandler);
-
-document
-  .getElementById("new-reimbursement-modal-open")
-  .addEventListener("click", newReimbursementModalOpenHandler);
 
 fetchUsersReimbursements().then((reimbursements) => {
   drawReimbursements(reimbursements);
