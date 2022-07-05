@@ -154,17 +154,20 @@ const fetchUsersReimbursements = () => {
 };
 
 const drawReimbursements = (reimbursements) => {
+  const cardBody = document.getElementById("reimbursements-card")
+
+
+  if (reimbursements.length < 1) {
+    const no_reimbursements = document.createElement("div");
+    no_reimbursements.setAttribute("class", "no-reimbursements text-center");
+    no_reimbursements.innerText = "No reimbursements found";
+    cardBody.appendChild(no_reimbursements);
+    return;
+  }
+
   const table = document.createElement("table");
   table.setAttribute("id", "reimbursements-table");
   table.setAttribute("class", "table table-striped table-borderless");
-
-  if (!reimbursements) {
-    const no_reimbursements = document.createElement("div");
-    no_reimbursements.setAttribute("class", "no-reimbursements");
-    no_reimbursements.innerText = "No reimbursements found create one!";
-    document.getElementById("reimbursements-card").appendChild(no_reimbursements);
-    return;
-  }
 
   const header = document.createElement("thead");
   header.appendChild(document.createElement("th")).innerText = "Id";
@@ -178,14 +181,20 @@ const drawReimbursements = (reimbursements) => {
 
   reimbursements.forEach((reimbursement) => {
     const row = document.createElement("tr");
+
+    // FIXME: ID value of last element should not be 0
     const id = document.createElement("td");
     id.innerText = reimbursement.id;
+
     const status = document.createElement("td");
     status.innerText = reimbursement.status;
+
     const type = document.createElement("td");
     type.innerText = reimbursement.type;
+
     const amount = document.createElement("td");
     amount.innerText = `$${reimbursement.amount / 100}`;
+
     const description = document.createElement("td");
     description.innerText = reimbursement.description;
 
